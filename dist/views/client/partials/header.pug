@@ -12,13 +12,15 @@ header
                     li
                         a(href="/contact") Contact
             div(class="flex items-center space-x-4")
-                a(href="/cart")
-                    span Giỏ hàng
                 - if(!INFOR_USER)
                     a(href="/tai-khoan/dang-nhap")
                         span Đăng nhập
                     a(href="/tai-khoan/dang-ky")
                         span Đăng ký
                 - else
-                    a(href="/tai-khoan/dang-nhap")
+                    a(href="/gio-hang")
+                        span Giỏ hàng
+                    a(href="/tai-khoan")
                         span #{INFOR_USER.fullname  || 'Tài khoản'}
+                    a(href="/tai-khoan/dang-xuat")
+                        span Đăng xuất

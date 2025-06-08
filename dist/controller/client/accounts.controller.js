@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register_post = exports.register = exports.login_patch = exports.login = void 0;
+exports.logout = exports.register_post = exports.register = exports.login_patch = exports.login = void 0;
 const mongodb_1 = require("mongodb");
 const bcrypt_helper_1 = require("../../helpers/bcrypt.helper");
 const user_accounts_model_1 = __importDefault(require("../../models/user_accounts.model"));
@@ -23,6 +23,33 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.login = login;
 const login_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
+    const { account, password } = req.body;
+    const check_account = yield user_accounts_model_1.default.findOne({
+        $or: [
+            {
+                email: account,
+            },
+            {
+                username: account,
+            },
+            {
+                phone: account,
+            },
+        ],
+    });
+    const new_token = yield (0, jwt_helpers_1.jwt_create)({
+        _id: check_account._id,
+        email: check_account.email,
+        username: check_account.username,
+    });
+    yield user_accounts_model_1.default.updateOne({ _id: check_account._id }, {
+        token: new_token,
+    });
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Đăng nhập thành công",
+    }));
+    res.cookie("token", new_token);
     res.json({
         success: true
     });
@@ -68,3 +95,14 @@ const register_post = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     });
 });
 exports.register_post = register_post;
+const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.clearCookie("token");
+    res.clearCookie("alert");
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Đăng xuất thành công",
+    }));
+    const backURL = req.get("referer") || "/";
+    res.redirect(backURL);
+});
+exports.logout = logout;

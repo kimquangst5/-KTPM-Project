@@ -10,18 +10,19 @@ const main = () => {
     const btn_submit = form.querySelector("[type='submit']");
     if (!btn_submit) return;
     btn_submit.addEventListener("click", () => {
+        if(!account.value || !password.value) {
+            quick_alert('error', 'Vui lòng nhập đầy đủ thông tin');
+            return;
+        }
         axios.patch(form.action, {
             account: account.value,
             password: password.value
         }).then((res) => {
             if (res.data.success) {
-                if (res.data.success) {
-                    // quick_alert(res.data.icon, res.data.message);
-                    window.location.href = res.data.redirect_url || "/";
-                } else quick_alert(res.data.icon, res.data.message.join('\n'));
+                window.location.href = res.data.redirect_url || "/";
                 
             } else {
-                alert(res.data.message);
+                quick_alert(res.data.icon, res.data.message.join('\n'));
             }
         });
     });

@@ -1,5 +1,8 @@
 extends ../../layouts/layout.pug
 
+block script
+    script(src="/client/js/products/detail.js")
+
 block main
     div(class="") 
         div(class="container")
@@ -18,13 +21,15 @@ block main
                     div(class="") 
                         h1(class="text-[20px] font-bold my-[20px]") #{product.name}
                         sl-format-number(type="currency" currency="VND" value=product.price - (product.price * product.discount / 100) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
-                        sl-format-number(type="currency" currency="VND" value=product.price lang="vi" class="text-accent mt-1 line-through")
                         - if(product.discount > 0)
+                            sl-format-number(type="currency" currency="VND" value=product.price lang="vi" class="text-accent mt-1 line-through")
                             span(class="text-teal ml-[2rem] text-right") -#{product.discount}%
-                        p(class="mt-4 line-clamp-2 text-[14px] text-text py-3") #{product.description}
-                    div(class="")
-                        sl-button(variant="warning") Thêm vào giỏ hàng
-    
+                        p(class=" line-clamp-2 text-[14px] text-text my-[20px]") #{product.description}
+                    div(class="flex items-center gap-x-[10px] mt-[20px]")
+                        div Số lượng
+                        sl-input(name = 'quantity' type="number" value=1 autocomplete = 'off' class="w-[100px] mt-2" size = 'small' min=1 max=product.quantity)
+                    div(class="my-[2rem]")
+                        sl-button(variant="warning" btn-add-cart = product._id action = '/gio-hang/them-moi' user_id = INFOR_USER ? INFOR_USER._id : '') Thêm vào giỏ hàng
 
     div(class="")
         div(class="container")

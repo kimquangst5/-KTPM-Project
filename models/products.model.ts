@@ -13,6 +13,7 @@ const products_schema = new Schema(
       default: null,
     },
     description: String,
+    quantity: Number,
     images: [
       {
         type: mongoose.Schema.Types.ObjectId,

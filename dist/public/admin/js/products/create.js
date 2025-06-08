@@ -12,6 +12,7 @@ const main = () => {
         form_data.append('price', form.querySelector("[name = 'price' ]").value);
         form_data.append('discount', form.querySelector("[name = 'discount' ]").value);
         form_data.append('product_categories', form.querySelector("[name = 'product_categories' ]").value);
+        form_data.append('quantity', form.querySelector("[name = 'quantity' ]").value);
         let list_files = form.querySelector("[name = 'images' ]").files
         if (list_files && list_files.length > 0){
             for (const file of list_files) {
@@ -23,7 +24,7 @@ const main = () => {
                 if (res.data.success) {
                     form.querySelector("[name = 'name' ]").value = '';
                     form.querySelector("[name = 'description' ]").value = '';
-                    form.querySelector("[name = 'parent_id' ]").value = '';
+                    // form.querySelector("[name = 'parent_id' ]").value = '';
                     alert('Thêm thành công!')
                 }
             })

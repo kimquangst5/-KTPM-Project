@@ -16,7 +16,37 @@ export const login = async (req: Request, res: Response) => {
 
 export const login_patch = async (req: Request, res: Response) => {
   console.log(req.body);
-  
+  const { account, password } = req.body;
+  const check_account = await UserAccount.findOne({
+      $or: [
+        {
+          email: account,
+        },
+        {
+          username: account,
+        },
+        {
+          phone: account,
+        },
+      ],
+    });
+  const new_token = await jwt_create({
+    _id: check_account._id,
+    email: check_account.email,
+    username: check_account.username,
+  });
+  await UserAccount.updateOne(
+    { _id: check_account._id },
+    {
+      token: new_token,
+    }
+  );
+  res.cookie("alert", JSON.stringify({
+    icon: "success",
+    title: "Đăng nhập thành công",
+  }));
+  res.cookie("token", new_token);
+
   res.json({
     success: true
   })
@@ -72,3 +102,13 @@ export const register_post = async (req: Request, res: Response) => {
     success: true,
   })
 };
+export const logout = async (req: Request, res: Response) => {
+  res.clearCookie("token");
+  res.clearCookie("alert");
+  res.cookie("alert", JSON.stringify({
+    icon: "success",
+    title: "Đăng xuất thành công",
+  }));
+  const backURL = req.get("referer") || "/";
+  res.redirect(backURL);
+}

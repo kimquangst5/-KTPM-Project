@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login_patch_validate = exports.register_post_validate = void 0;
 const user_accounts_model_1 = __importDefault(require("../../models/user_accounts.model"));
+const bcrypt_helper_1 = require("../../helpers/bcrypt.helper");
 const register_post_validate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, email, password, confirm_password, fullname, phone, address, city, country, } = req.body;
     const data_error = {
@@ -62,9 +63,13 @@ const login_patch_validate = (req, res, next) => __awaiter(void 0, void 0, void 
             },
         ],
     });
-    console.log(check_account);
     if (check_account == null)
         data_error.message.push("Tài khoản không tồn tại!");
+    else {
+        const check_password = yield (0, bcrypt_helper_1.bcrypt_compare)(password, check_account.password);
+        if (!check_password)
+            data_error.message.push("Mật khẩu không đúng!");
+    }
     if (data_error.message.length > 0) {
         res.json(data_error);
         return;

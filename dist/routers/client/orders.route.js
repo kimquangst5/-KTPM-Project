@@ -37,14 +37,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const controller = __importStar(require("../../controller/client/accounts.controller"));
-const accounts_middleware_1 = require("../../middlewares/client/accounts.middleware");
+const controller = __importStar(require("../../controller/client/orders.controller"));
 const multer_1 = __importDefault(require("multer"));
 const upload = (0, multer_1.default)();
 const router = express_1.default.Router();
-router.get("/dang-nhap", controller.login);
-router.patch("/dang-nhap", accounts_middleware_1.login_patch_validate, controller.login_patch);
-router.get("/dang-ky", controller.register);
-router.post("/dang-ky", upload.none(), accounts_middleware_1.register_post_validate, controller.register_post);
-router.get("/dang-xuat", controller.logout);
+router.post("/them-don-hang", controller.add_order);
+router.get("/:id", controller.order_success);
 exports.default = router;

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import UserAccount from "../../models/user_accounts.model";
+import { bcrypt_compare } from "../../helpers/bcrypt.helper";
 
 export const register_post_validate = async (
   req: Request,
@@ -65,8 +66,11 @@ export const login_patch_validate = async (
       },
     ],
   });
-  console.log(check_account);
   if (check_account == null) data_error.message.push("Tài khoản không tồn tại!");
+  else{
+    const check_password = await bcrypt_compare(password, check_account.password);
+    if (!check_password) data_error.message.push("Mật khẩu không đúng!");
+  }
   
   if (data_error.message.length > 0) {
     res.json(data_error);

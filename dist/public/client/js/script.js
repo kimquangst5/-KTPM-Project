@@ -68,7 +68,6 @@ const quick_alert = (icon = 'success', title = 'Thành công') => {
         title: title
     });
 }
-console.log(get_cookie('alert'));
 
 if (get_cookie('alert')){
     const alert = decodeURIComponent(get_cookie('alert'));

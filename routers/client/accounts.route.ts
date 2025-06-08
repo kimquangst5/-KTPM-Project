@@ -19,4 +19,6 @@ router.post(
   controller.register_post
 );
 
+router.get("/dang-xuat", controller.logout);
+
 export default router;

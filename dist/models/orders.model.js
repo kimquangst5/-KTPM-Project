@@ -32,19 +32,26 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const controller = __importStar(require("../../controller/client/accounts.controller"));
-const accounts_middleware_1 = require("../../middlewares/client/accounts.middleware");
-const multer_1 = __importDefault(require("multer"));
-const upload = (0, multer_1.default)();
-const router = express_1.default.Router();
-router.get("/dang-nhap", controller.login);
-router.patch("/dang-nhap", accounts_middleware_1.login_patch_validate, controller.login_patch);
-router.get("/dang-ky", controller.register);
-router.post("/dang-ky", upload.none(), accounts_middleware_1.register_post_validate, controller.register_post);
-router.get("/dang-xuat", controller.logout);
-exports.default = router;
+const mongoose_1 = __importStar(require("mongoose"));
+const order_schema = new mongoose_1.Schema({
+    infor_user: {
+        user_id: mongoose_1.default.SchemaTypes.ObjectId,
+        fullname: String,
+        address: String,
+        city: String,
+        country: String,
+        email: String,
+    },
+    infor_products: [
+        {
+            product_id: mongoose_1.default.SchemaTypes.ObjectId,
+            quantity: Number,
+        },
+    ],
+}, {
+    timestamps: true,
+    autoCreate: true,
+});
+const Order = (0, mongoose_1.model)("Order", order_schema);
+exports.default = Order;

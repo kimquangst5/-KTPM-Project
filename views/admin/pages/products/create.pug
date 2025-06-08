@@ -14,6 +14,8 @@ block main
         input(id = 'price' type="number"  placeholder = 'Giá trước khi giảm...' name = 'price')
         label(for='discount') % giảm giá
         input(id = 'discount' type="number" placeholder = '% giảm giá...' name = 'discount')
+        label(for='quantity') Số lượng
+        input(id = 'quantity' type="number" placeholder = 'Số lượng...' name = 'quantity')
         select(name="product_categories" class="w-full")
             option(value='') ---Lựa chọn---
             +create_tree(tree_categories, null, 0)
