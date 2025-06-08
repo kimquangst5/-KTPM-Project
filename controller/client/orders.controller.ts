@@ -18,9 +18,16 @@ export const add_order = async (req: Request, res: Response) => {
   req.body.infor_user.user_id = data._id;
   const carts = await Carts.find({
     user_id: data._id,
-  });
-  req.body.infor_products = carts;
-  console.log(req.body);
+  }).populate("product_id")
+  req.body.infor_products = []
+  for (const it of carts) {
+    req.body.infor_products.push({
+      price: it.product_id["price"],
+      discount: it.product_id["discount"],
+      product_id: new ObjectId(it.product_id["_id"]),
+      quantity: it["quantity"],
+    });
+  }
   await Order.create(req.body);
   await Carts.deleteMany({
     user_id: data._id,
@@ -49,7 +56,6 @@ export const order_success = async (req: Request, res: Response) => {
       },
     })
     .exec();
-    console.log(order);
     
   res.render("client/pages/orders/success.pug", {
     order

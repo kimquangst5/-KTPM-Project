@@ -35,11 +35,13 @@ const check_login_validate = (req, res, next) => __awaiter(void 0, void 0, void 
                 }).select("-password -__v -createdAt -updatedAt");
                 res.locals.INFOR_USER = user;
                 if (token != user["token"]) {
+                    res.clearCookie("token");
                     res.cookie("alert", JSON.stringify({
                         icon: "warning",
                         title: "Tài khoản của bạn đã được đăng nhập ở nơi khác!.",
                     }));
-                    res.clearCookie("token");
+                    res.redirect('/');
+                    return;
                 }
             }
         }

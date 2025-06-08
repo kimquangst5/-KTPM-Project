@@ -68,7 +68,7 @@ const register_post = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         email: req.body.email,
         username: req.body.username,
     }, {
-        expiresIn: '5s',
+        expiresIn: '1d',
         issuer: "ecommerce-app",
         audience: "user",
         subject: "user_account",

@@ -16,6 +16,8 @@ const order_schema = new Schema(
       {
         product_id: mongoose.SchemaTypes.ObjectId,
         quantity: Number,
+        price: Number,
+        discount: Number
       },
     ],
   },

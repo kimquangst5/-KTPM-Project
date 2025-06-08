@@ -33,8 +33,8 @@ block main
                                         td
                                             a(href=`/san-pham/${product.product_id.slug}`)
                                                 img(src=product.product_id.images[0] ? product.product_id.images[0].secure_url : '' alt = product.product_id.name class="h-[80px] w-auto")
-                                        td
-                                            a(href=`/san-pham/${product.product_id.slug}` class=" text-wrap") #{product.product_id.name}
+                                        td(class="flex w-[200px]")
+                                            a(href=`/san-pham/${product.product_id.slug}` class=" text-wrap text-justify") #{product.product_id.name}
                                         td
                                             sl-format-number(type="currency" currency="VND" value=product.product_id.price - (product.product_id.price * product.product_id.discount / 100) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
                                         td #{product.quantity}

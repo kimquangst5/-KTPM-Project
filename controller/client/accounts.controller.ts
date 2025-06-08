@@ -75,7 +75,7 @@ export const register_post = async (req: Request, res: Response) => {
     email: req.body.email,
     username: req.body.username,
   }, {
-    expiresIn: '5s',
+    expiresIn: '1d',
     issuer: "ecommerce-app",
     audience: "user",
     subject: "user_account",

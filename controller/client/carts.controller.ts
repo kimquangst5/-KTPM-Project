@@ -12,7 +12,26 @@ import { jwt_create, jwt_verify } from "../../helpers/jwt.helpers";
 import Carts from "../../models/carts.model";
 
 export const add_to_cart = async (req: Request, res: Response) => {
-  await Carts.create(req.body);
+  console.log(req.body);
+  const { product_id, user_id, quantity  } = req.body;
+  const check_exsit = await Carts.findOne({
+    product_id: product_id,
+    user_id: user_id,
+  });
+  if (check_exsit){
+    await Carts.updateOne(
+      {
+        product_id: product_id,
+        user_id: user_id,
+      },
+      {
+        quantity: check_exsit.quantity + quantity,
+      }
+    ); 
+  }
+  else
+    
+    await Carts.create(req.body);
 
   res.json({
     success: true,

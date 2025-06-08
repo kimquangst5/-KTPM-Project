@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.order_success = exports.add_order = void 0;
+const mongodb_1 = require("mongodb");
 const jwt_helpers_1 = require("../../helpers/jwt.helpers");
 const carts_model_1 = __importDefault(require("../../models/carts.model"));
 const orders_model_1 = __importDefault(require("../../models/orders.model"));
@@ -22,9 +23,16 @@ const add_order = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     req.body.infor_user.user_id = data._id;
     const carts = yield carts_model_1.default.find({
         user_id: data._id,
-    });
-    req.body.infor_products = carts;
-    console.log(req.body);
+    }).populate("product_id");
+    req.body.infor_products = [];
+    for (const it of carts) {
+        req.body.infor_products.push({
+            price: it.product_id["price"],
+            discount: it.product_id["discount"],
+            product_id: new mongodb_1.ObjectId(it.product_id["_id"]),
+            quantity: it["quantity"],
+        });
+    }
     yield orders_model_1.default.create(req.body);
     yield carts_model_1.default.deleteMany({
         user_id: data._id,
@@ -52,7 +60,6 @@ const order_success = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         },
     })
         .exec();
-    console.log(order);
     res.render("client/pages/orders/success.pug", {
         order
     });
