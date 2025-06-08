@@ -1,0 +1,25 @@
+extends ../../layouts/layout.pug
+include ../../components/box-product.mixin.pug
+
+block script
+    script(src="/client/js/accounts/register.js")
+
+block main
+    div(class="")
+        div(class="container")
+            h1(class="text-[20px] font-bold my-[20px]") Đăng ký tài khoản
+            form(action="/tai-khoan/dang-ky" method="POST")
+                div(class="grid grid-cols-2 gap-4")
+                    div(class="") 
+                        sl-input(type="text" name="username" placeholder="Tên đăng nhập" label = "Tên đăng nhập" required class="w-full mb-4")
+
+                        sl-input(type="email" name="email" placeholder="ví dụ: kimquangst5@gmail.com" label = "Email" required class="w-full mb-4")
+                        sl-input(type="password" name="password" placeholder="Mật khẩu" label = "Mật khẩu" required class="w-full mb-4" password-toggle clearable)
+                        sl-input(type="password" name="confirm_password" placeholder="Xác nhận mật khẩu" label = "Xác nhận mật khẩu" required class="w-full mb-4" password-toggle clearable)
+                        sl-input(type="text" name="fullname" placeholder="Họ và tên" label = "Họ và tên" required class="w-full mb-4")
+                    div(class="") 
+                        sl-input(type="number" name="phone" placeholder="Số điện thoại" label = "Số điện thoại" required class="w-full mb-4")
+                        sl-input(type="text" name="address" placeholder="Địa chỉ" label = "Địa chỉ" class="w-full mb-4")
+                        sl-input(type="text" name="city" placeholder="Thành phố" label = "Thành phố" class="w-full mb-4")
+                        sl-input(type="text" name="country" placeholder="Quốc gia" label = "Quốc gia" class="w-full mb-4")
+                        sl-button(type="submit" variant="primary" class="w-full") Đăng ký ngay

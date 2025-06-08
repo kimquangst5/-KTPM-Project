@@ -1,0 +1,21 @@
+extends ../../layouts/layout.pug
+
+block main
+    h1(class="w-full text-[20px] font-bold") Danh sách nhóm quyền
+    button 
+        a(href="/admin/roles/create") Thêm mới
+    
+    table(class="w-full")
+        thead
+            tr
+                th STT
+                th Vai trò
+                th Mô tả
+                th Thêm bởi
+        tbody
+            - if(roles && roles.length > 0)
+                each it, index in roles
+                    tr
+                        td #{index + 1}
+                        td #{it.name}
+                        td #{it.description}

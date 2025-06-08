@@ -1,0 +1,25 @@
+extends ../../layouts/layout.pug
+
+block main
+    h1(class="w-full text-[20px] font-bold") Danh sách tài khoản quản trị
+    button 
+        a(href="/admin/accounts/create") Thêm mới
+    
+    table(class="w-full")
+        thead
+            tr
+                th STT
+                th Avatar
+                th Vai trò
+                th Họ tên
+                th Tên đăng nhập
+        tbody
+            - if(accounts && accounts.length > 0)
+                each account, index in accounts
+                    tr
+                        td #{index + 1}
+                        td
+                            img(src=account.avatar ? account.avatar.secure_url : '', alt="" class="h-[80px]")
+                        td #{account.role_id ? account.role_id.name : ''}
+                        td #{account.fullname}
+                        td #{account.username}

@@ -1,0 +1,25 @@
+extends ../../layouts/layout.pug
+
+block main
+    h1(class="w-full text-[20px] font-bold") Danh sách danh mục
+    button 
+        a(href="/admin/roles/create") Thêm mới
+    
+    table(class="w-full")
+        thead
+            tr
+                th STT
+                th Avatar
+                th Tên danh mục
+                th Mô tả
+                th Danh mục cha
+        tbody
+            - if(categories && categories.length > 0)
+                each it, index in categories
+                    tr
+                        td #{index + 1}
+                        td
+                            img(src=(it.avatar ? it.avatar.secure_url : ""), alt="" class="h-[70px]")
+                        td #{it.name}
+                        td #{it.description}
+                        td #{it.parent_id ? it.parent_id.name : "Không có"}

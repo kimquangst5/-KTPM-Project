@@ -1,0 +1,5 @@
+mixin create_tree(array, parent_id = null, level = 0, product_categories = null)
+    each item in array
+        option(value=item.id selected = (item.id == product_categories ? true : false)) #{'--'.repeat(level)} #{item.name}
+        - if(item.children && item.children.length > 0)
+            +create_tree(item.children, item.id, level + 1, product_categories)

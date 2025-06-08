@@ -1,0 +1,10 @@
+mixin box-product(products)
+    each product in products
+        div(class="bg-white rounded-lg shadow-md p-4")
+            a(href=`/san-pham/${product.slug}`)
+                img(src=product.images[0] ? product.images[0].secure_url : '' alt=product.name class="w-full h-48 object-cover rounded")
+                h4(class="text-lg font-semibold mt-2") #{product.name}
+                sl-format-number(type="currency" currency="VND" value=product.price - (product.price * product.discount / 100) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
+                sl-format-number(type="currency" currency="VND" value=product.price lang="vi" class="text-accent mt-1 line-through")
+                - if(product.discount > 0)
+                    span(class="text-teal mt-1 ml-[2rem] text-right") -#{product.discount}%

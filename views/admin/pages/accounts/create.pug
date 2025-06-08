@@ -1,0 +1,19 @@
+extends ../../layouts/layout.pug
+
+block script
+    script(src="/admin/js/accounts/create.js") 
+block main
+    h1(class="w-full text-[20px] font-bold") Trang thêm tài khoản quản trị
+    button(class="ml-auto block " btn-submit) Thêm mới
+    form(action="/admin/accounts/create" method = 'post' class="flex flex-col gap-y-[10px]" new-account) 
+        input(type="text" placeholder = 'Tên đăng nhập...' name = 'username')
+        input(type="password" placeholder = 'Mật khẩu...' name = 'password')
+        input(type="password" placeholder = 'Xác nhận mật khẩu...' name = 'confim-password')
+        label(for='role') Vai trò
+        select(id = 'role' name = 'role_id')
+            option(value='') ---Lựa chọn---
+            each role in roles
+                option(value=role.id) #{role.name}
+        input(type="file" accept = 'image/*' placeholder = 'Avatar...' name = 'avatar')
+        input(type="text" placeholder = 'Họ và tên...' name = 'fullname')
+        input(type="date" placeholder = 'Ngày sinh...' name = 'birthday')

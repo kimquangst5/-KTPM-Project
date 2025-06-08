@@ -1,0 +1,21 @@
+extends ../../layouts/layout.pug
+include ../../components/create_tree.mixin.pug
+block script
+    script(src="/admin/js/products/create.js")
+block main
+    h1(class="w-full text-[20px] font-bold") Thêm sản phẩm
+    button(class="ml-auto block " btn-submit) Thêm mới
+    form(action="/admin/products/create" method = 'post' class="flex flex-col gap-y-[10px]" new-products)
+        label(for='name') Tên sản phẩm
+        input(id = 'name' type="text" placeholder = 'Tên sản phẩm...' name = 'name' required)
+        label(for='description') Mô tả sản phẩm
+        input(id = 'description' type="text" placeholder = 'Mô tả sản phẩm...' name = 'description')
+        label(for='price') Giá trước khi giảm
+        input(id = 'price' type="number"  placeholder = 'Giá trước khi giảm...' name = 'price')
+        label(for='discount') % giảm giá
+        input(id = 'discount' type="number" placeholder = '% giảm giá...' name = 'discount')
+        select(name="product_categories" class="w-full")
+            option(value='') ---Lựa chọn---
+            +create_tree(tree_categories, null, 0)
+        label(for='images') Ảnh sản phẩm
+        input(id= 'images' multiple type="file" accept = 'image/*' placeholder = 'Ảnh sản phẩm...' name = 'images')

@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css")
+        link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.min.css")
+        link(rel="stylesheet", href="/client/css/style.css")
+        script(src="https://cdn.tailwindcss.com")
+        script(src="/tailwind.config.js")
+        title Document
+    body
+        include ../partials/header.pug
+        block main
+        script(src="https://cdn.jsdelivr.net/npm/axios@1.9.0/dist/axios.min.js")
+        script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.all.min.js") 
+        script(type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js") 
+        block script
+        script(src="/client/js/script.js") 
+

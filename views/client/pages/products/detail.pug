@@ -1,0 +1,32 @@
+extends ../../layouts/layout.pug
+
+block main
+    div(class="") 
+        div(class="container")
+            div(class="grid grid-cols-2")
+                div(class="")
+                    sl-carousel(loop navigation class="carousel-thumbnails")
+                        each image in product.images
+                            sl-carousel-item
+                                img(src=image.secure_url alt=product.name class=" h-[100px] rounded")
+                    div(class="thumbnails")
+                        div(class="thumbnails__scroller !h-[80px]")
+                            each image in product.images
+                                sl-carousel-item
+                                    img(src=image.secure_url alt=product.name class=" thumbnails__image ")
+                div(class="")
+                    div(class="") 
+                        h1(class="text-[20px] font-bold my-[20px]") #{product.name}
+                        sl-format-number(type="currency" currency="VND" value=product.price - (product.price * product.discount / 100) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
+                        sl-format-number(type="currency" currency="VND" value=product.price lang="vi" class="text-accent mt-1 line-through")
+                        - if(product.discount > 0)
+                            span(class="text-teal ml-[2rem] text-right") -#{product.discount}%
+                        p(class="mt-4 line-clamp-2 text-[14px] text-text py-3") #{product.description}
+                    div(class="")
+                        sl-button(variant="warning") Thêm vào giỏ hàng
+    
+
+    div(class="")
+        div(class="container")
+            h2(class="text-[20px] font-bold my-[20px]") Mô tả sản phẩm
+            p(class="mt-2 text-[14px] text-text") #{product.description}

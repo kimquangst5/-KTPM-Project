@@ -1,0 +1,14 @@
+extends ../../layouts/layout.pug
+include ../../components/box-product.mixin.pug
+
+block script
+    script(src="/client/js/accounts/login.js")
+
+block main
+    div(class="")
+        div(class="container")
+            h1(class="text-[20px] font-bold my-[20px]") Đăng nhập
+            form(action="/tai-khoan/dang-nhap" method="POST")
+                sl-input(type="text" name="account" placeholder="ví dụ: kimquangst5@gmail.com" label = "Email hoặc tên đăng nhập hoặc số điện thoại" required class="w-full mb-4")
+                sl-input(type="password" name="password" placeholder="Mật khẩu" label = "Mật khẩu" required class="w-full mb-4" password-toggle clearable)
+                sl-button(type="submit" variant="primary") Đăng nhập

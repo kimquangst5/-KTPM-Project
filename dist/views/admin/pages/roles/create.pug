@@ -1,0 +1,10 @@
+extends ../../layouts/layout.pug
+
+block script
+    script(src="/admin/js/roles/create.js") 
+block main
+    h1(class="w-full text-[20px] font-bold") Trang thêm nhóm quyền
+    button(class="ml-auto block " btn-submit) Thêm mới
+    form(action="/admin/roles/create" method = 'post' class="flex flex-col gap-y-[10px]" new-role) 
+        input(type="text" placeholder = 'Tên nhóm quyền...' name = 'name')
+        textarea(placeholder = 'Mô tả...' name = 'description')

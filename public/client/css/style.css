@@ -1,0 +1,37 @@
+.carousel-thumbnails {
+    --slide-aspect-ratio: 1 / 1;
+}
+
+.thumbnails {
+    display: flex;
+    justify-content: center;
+}
+
+.thumbnails__scroller {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    scroll-padding: var(--sl-spacing-small);
+}
+
+.thumbnails__scroller::-webkit-scrollbar {
+    display: none;
+}
+
+.thumbnails__image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+
+    opacity: 0.3;
+    will-change: opacity;
+    transition: 250ms opacity;
+
+    cursor: pointer;
+}
+
+.thumbnails__image.active {
+    opacity: 1;
+}
