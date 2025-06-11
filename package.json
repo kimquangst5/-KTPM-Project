@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && node fs-extra.js",
-    "start": "nodemon --exec node --inspect -r ts-node/register index.ts",
+    "start": "nodemon index.ts",
+    "start-2": "nodemon --exec node --inspect -r ts-node/register index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

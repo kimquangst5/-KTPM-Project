@@ -21,8 +21,6 @@ const add_order = () => {
             })
             .then(res => {
                 if (res.data.success) {
-                    console.log('Thành công');
-                    console.log(res.data);
                     quick_alert('success', res.data.message)
 
                 }

@@ -17,5 +17,14 @@ router.post(
   controller.create_post
 );
 
+router.get(
+  "/cap-nhat/:id",
+  controller.update
+);
+
+router.patch("/cap-nhat/:id", controller.update_patch);
+
+
+
 
 export default router;

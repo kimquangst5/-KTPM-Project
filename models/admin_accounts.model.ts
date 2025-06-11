@@ -21,12 +21,13 @@ const role_schema = new Schema(
     avatar: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Asset",
-      default: null
+      default: null,
     },
     role_id: {
       type: mongoose.Schema.Types.Mixed,
       ref: "Role",
     },
+    birthday: Date,
   },
   {
     timestamps: true,

@@ -4,6 +4,7 @@ import Roles from "../../models/roles.model";
 import Account from "../../models/admin_accounts.model";
 import Assets from "../../models/assets.model";
 import { bcrypt_hash } from "../../helpers/bcrypt.helper";
+import { parse_date } from "../../helpers/format_date.helper";
 
 export const index = async (req: Request, res: Response) => {
   const accounts = await Account.find({
@@ -37,3 +38,34 @@ export const create_post = async (req: Request, res: Response) => {
     success: true,
   });
 };
+export const update = async (req: Request, res: Response) => {
+  const account = await Account.findOne({
+    _id: req.params.id,
+    deleted: false,
+  }).populate("avatar role_id");
+  const roles = await Roles.find({
+    deleted: false
+  })
+  
+  res.render("admin/pages/accounts/update.pug", {
+    account,
+    roles
+  });
+}
+
+export const update_patch = async (req: Request, res: Response) => {
+  req.body.birthday = req.body.birthday ? parse_date(req.body.birthday) : null;
+  await Account.updateOne({
+    _id: req.params.id
+  }, req.body)
+    res.cookie(
+      "alert",
+      JSON.stringify({
+        icon: "success",
+        title: "Cập nhật thành công!",
+      })
+    );
+  res.json({
+    success: true
+  })
+}

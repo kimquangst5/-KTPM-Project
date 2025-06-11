@@ -14,8 +14,6 @@ const add_cart = () => {
         })
             .then(res => {
                 if (res.data.success) {
-                    console.log(res.data);
-                    
                     quick_alert('success', res.data.message);
                     document.querySelector("[name='quantity']").value = 1;
                     // document.querySelector('.cart-count').innerText = res.data.cart_count;

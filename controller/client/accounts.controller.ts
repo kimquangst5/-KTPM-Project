@@ -15,7 +15,6 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const login_patch = async (req: Request, res: Response) => {
-  console.log(req.body);
   const { account, password } = req.body;
   const check_account = await UserAccount.findOne({
       $or: [
@@ -48,7 +47,8 @@ export const login_patch = async (req: Request, res: Response) => {
   res.cookie("token", new_token);
 
   res.json({
-    success: true
+    success: true,
+    message: "Đăng nhập thành công!"
   })
 };
 

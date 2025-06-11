@@ -11,6 +11,7 @@ const order_schema = new Schema(
       city: String,
       country: String,
       email: String,
+      phone: String
     },
     infor_products: [
       {

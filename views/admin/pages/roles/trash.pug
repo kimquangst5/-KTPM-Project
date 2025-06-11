@@ -1,14 +1,15 @@
 extends ../../layouts/layout.pug
 
 block script
-    script(src="/admin/js/roles/index.js") 
+    script(src="/admin/js/roles/trash.js") 
 
 block main
     div(class="flex items-center justify-between mb-[1rem]") 
-        h1(class="w-full text-[20px] font-bold") Danh sách nhóm quyền
+        h1(class="w-full text-[20px] font-bold") Thùng rác nhóm quyền
         div(class="flex gap-x-[1rem]")
-            sl-button(href="/admin/roles/thung-rac" variant='primary' size='small' outline) Thùng rác
-            sl-button(href="/admin/roles/create" variant='primary' size='small' ) Thêm mới
+            sl-button(href="/admin/roles" variant='primary' size='small' outline) Quay lại danh sách
+    
+
     
     table(class="w-full")
         thead
@@ -16,7 +17,7 @@ block main
                 th STT
                 th Vai trò
                 th Mô tả
-                th Thêm bởi
+                th Xóa bởi
                 th Hành động
         tbody
             - if(roles && roles.length > 0)
@@ -28,5 +29,5 @@ block main
                         td 
                         td
                             div(class="flex items-center justify-center gap-x-[10px]")
-                                sl-button(href = `/admin/roles/cap-nhat/${it._id}` size="small" variant="primary" outline pill) Sửa 
-                                sl-button(soft-delete = `/admin/roles/xoa-mem/${it._id}` size="small" variant="danger" outline pill) Xóa  
+                                sl-button(action = `/admin/roles/khoi-phuc/${it._id}` size="small" variant="primary" outline pill) Khôi phục 
+                                sl-button(delete = `/admin/roles/xoa-cung/${it._id}` size="small" variant="danger" outline pill) Xóa vĩnh viễn

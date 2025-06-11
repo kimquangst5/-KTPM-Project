@@ -22,7 +22,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.login = login;
 const login_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     const { account, password } = req.body;
     const check_account = yield user_accounts_model_1.default.findOne({
         $or: [

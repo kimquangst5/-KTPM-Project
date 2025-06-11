@@ -17,7 +17,6 @@ const mongodb_1 = require("mongodb");
 const jwt_helpers_1 = require("../../helpers/jwt.helpers");
 const carts_model_1 = __importDefault(require("../../models/carts.model"));
 const add_to_cart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     const { product_id, user_id, quantity } = req.body;
     const check_exsit = yield carts_model_1.default.findOne({
         product_id: product_id,

@@ -13,6 +13,7 @@ block main
                 th Vai trò
                 th Họ tên
                 th Tên đăng nhập
+                th Hành động
         tbody
             - if(accounts && accounts.length > 0)
                 each account, index in accounts
@@ -23,3 +24,7 @@ block main
                         td #{account.role_id ? account.role_id.name : ''}
                         td #{account.fullname}
                         td #{account.username}
+                        td
+                            div(class="flex items-center justify-center gap-x-[10px]")
+                                sl-button(href = `/admin/accounts/cap-nhat/${account._id}` size="small" variant="primary" outline pill) Sửa 
+                                sl-button(soft-delete = `/admin/accounts/xoa-mem/${account._id}` size="small" variant="danger" outline pill) Xóa  
