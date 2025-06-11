@@ -17,7 +17,6 @@ const add_order = () => {
                     city: city.value,
                     country: country.value,
                 }
-
             })
             .then(res => {
                 if (res.data.success) {

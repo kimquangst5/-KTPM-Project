@@ -6,10 +6,10 @@ import body_parser from "body-parser";
 import database_connect from './configs/database.config'
 import cookie_parser from "cookie-parser";
 
+database_connect();
 const app = express();
 const port = 3000;
 
-database_connect();
 app.set("view engine", "pug");
 app.set("views", `${__dirname}/views`);
 

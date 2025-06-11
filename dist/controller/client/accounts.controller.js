@@ -50,7 +50,8 @@ const login_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }));
     res.cookie("token", new_token);
     res.json({
-        success: true
+        success: true,
+        message: "Đăng nhập thành công!"
     });
 });
 exports.login_patch = login_patch;

@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.create_post = exports.create = exports.index = void 0;
+exports.update_patch = exports.update = exports.create_post = exports.create = exports.index = void 0;
 const mongodb_1 = require("mongodb");
 const roles_model_1 = __importDefault(require("../../models/roles.model"));
 const admin_accounts_model_1 = __importDefault(require("../../models/admin_accounts.model"));
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
 const bcrypt_helper_1 = require("../../helpers/bcrypt.helper");
+const format_date_helper_1 = require("../../helpers/format_date.helper");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accounts = yield admin_accounts_model_1.default.find({
         deleted: false,
@@ -51,3 +52,31 @@ const create_post = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     });
 });
 exports.create_post = create_post;
+const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const account = yield admin_accounts_model_1.default.findOne({
+        _id: req.params.id,
+        deleted: false,
+    }).populate("avatar role_id");
+    const roles = yield roles_model_1.default.find({
+        deleted: false
+    });
+    res.render("admin/pages/accounts/update.pug", {
+        account,
+        roles
+    });
+});
+exports.update = update;
+const update_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    req.body.birthday = req.body.birthday ? (0, format_date_helper_1.parse_date)(req.body.birthday) : null;
+    yield admin_accounts_model_1.default.updateOne({
+        _id: req.params.id
+    }, req.body);
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Cập nhật thành công!",
+    }));
+    res.json({
+        success: true
+    });
+});
+exports.update_patch = update_patch;

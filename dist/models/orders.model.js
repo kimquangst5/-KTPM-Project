@@ -42,6 +42,7 @@ const order_schema = new mongoose_1.Schema({
         city: String,
         country: String,
         email: String,
+        phone: String
     },
     infor_products: [
         {

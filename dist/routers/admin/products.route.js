@@ -46,5 +46,6 @@ router.get("/index", controller.index);
 router.get("/create", controller.create);
 router.post("/create", upload.array("images", 6), upload_image_middleware_1.upload_multi, controller.create_post);
 router.get("/edit/:id", controller.edit);
-router.post("/edit/:id", upload.array("images", 6), upload_image_middleware_1.upload_multi, controller.edit_patch);
+router.patch("/edit/:id", upload.array("images", 6), upload_image_middleware_1.upload_multi, controller.edit_patch);
+router.patch("/xoa-mem/:id", controller.delete_soft);
 exports.default = router;

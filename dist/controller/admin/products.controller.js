@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.edit_patch = exports.edit = exports.create_post = exports.create = exports.index = void 0;
+exports.delete_soft = exports.edit_patch = exports.edit = exports.create_post = exports.create = exports.index = void 0;
 const mongodb_1 = require("mongodb");
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
 const product_categories_model_1 = __importDefault(require("../../models/product_categories.model"));
@@ -74,5 +74,34 @@ const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.edit = edit;
-const edit_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const edit_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    delete req.body.images;
+    yield products_model_1.default.updateOne({
+        _id: req.params.id
+    }, req.body);
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Cập nhật thành công!",
+    }));
+    res.json({
+        success: true,
+        message: 'Cập nhật thành công!'
+    });
+});
 exports.edit_patch = edit_patch;
+const delete_soft = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield products_model_1.default.updateOne({
+        _id: req.params.id
+    }, {
+        deleted: true
+    });
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Xóa (mềm) sản phẩm thành công!",
+    }));
+    res.json({
+        success: true,
+        message: "Xóa (mềm) sản phẩm thành công!"
+    });
+});
+exports.delete_soft = delete_soft;

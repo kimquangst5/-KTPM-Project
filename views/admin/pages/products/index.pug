@@ -1,9 +1,18 @@
 extends ../../layouts/layout.pug
 
+block script
+    script(src="/admin/js/products/index.js") 
+
 block main
-    h1(class="w-full text-[20px] font-bold") Danh sách tài khoản quản trị
-    button 
-        a(href="/admin/accounts/create") Thêm mới
+    div(class="flex items-center justify-between mb-[1rem]") 
+        h1(class="w-full text-[20px] font-bold") Danh sách sản phẩm
+        div(class="flex gap-x-[1rem]")
+            //- sl-button(href="/admin/products/thung-rac" variant='primary' size='small' outline) Thùng rác
+            sl-button(href="/admin/products/create" variant='primary' size='small' ) Thêm mới
+    
+
+
+
     
     table(class="w-full")
         thead
@@ -25,9 +34,12 @@ block main
                             img(src=product.images[0] ? product.images[0].secure_url : '', alt="" class="h-[80px]")
                         td #{product.name}
                         td #{product.product_categories ? product.product_categories.name : ''}
-                        td #{product.price}
-                        td #{product.discount}
-                        td #{product.price - (product.price * product.discount / 100)}
-                        td(class="mx-auto")
-                            a(href=`/admin/products/edit/${product._id}` class="mr-[20px] ml-auto") Sửa
-                            a(href=`/admin/products/delete/${product._id}`) Xóa
+                        td
+                            sl-format-number(type="currency" currency="VND" value=product.price lang="vi" class="text-secondary")
+                        td(class="text-center") #{product.discount}
+                        td
+                            sl-format-number(type="currency" currency="VND" value=product.price - (product.price * product.discount / 100) lang="vi" class="text-secondary")
+                        td(class="")
+                            div(class="flex items-center justify-center gap-x-[10px]")
+                                sl-button(href=`/admin/products/edit/${product._id}` class="" size="small" variant="primary" outline pill) Sửa
+                                sl-button(soft-delete=`/admin/products/xoa-mem/${product._id}` size="small" variant="danger" outline pill) Xóa

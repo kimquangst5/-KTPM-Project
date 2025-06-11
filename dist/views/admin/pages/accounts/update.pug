@@ -1,0 +1,17 @@
+extends ../../layouts/layout.pug
+
+block script
+    script(src="/admin/js/accounts/update.js") 
+block main
+    h1(class="w-full text-[20px] font-bold") Cập nhật tài khoản
+    button(class="ml-auto block " btn-submit) Cập nhật
+    form(action=`/admin/accounts/cap-nhat/${account._id}` method = 'post' class="flex flex-col gap-y-[10px]" update-account) 
+        sl-input(label="Tên đăng nhập" size='small' type="text" placeholder = 'Tên đăng nhập...' name = 'username' value = account.username || '')
+        sl-select(label="Vai trò" size='small' name = 'role_id' value = account.role_id ? account.role_id._id : '')
+            sl-option(value='') ---Lựa chọn---
+            each role in roles
+                sl-option(value=role.id) #{role.name}
+        div(class="")
+            img(src=account.avatar ? account.avatar.secure_url : '', alt="" class="max-h-[60px]")
+        sl-input(label="Họ và tên" size='small' type="text" placeholder = 'Họ và tên...' name = 'fullname' value = account.fullname || '')
+        sl-input(label="Ngày sinh" size='small' type="date" placeholder = 'Ngày sinh...' name = 'birthday')

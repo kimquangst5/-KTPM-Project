@@ -1,0 +1,12 @@
+extends ../../layouts/layout.pug
+
+block script
+    script(src="/admin/js/roles/update.js") 
+block main
+    div(class="flex items-center justify-between mb-[1rem]") 
+        h1(class="w-full text-[20px] font-bold") Cập nhật nhóm quyền
+        div(class="flex")
+            sl-button(class="ml-auto  " btn-submit size='small' variant='primary') Cập nhật
+    form(action=`/admin/roles/cap-nhat/${role._id}` method = 'patch' class="flex flex-col gap-y-[10px]" update-role) 
+        sl-input(type="text" placeholder = 'Tên nhóm quyền...' name = 'name' value = role.name)
+        sl-textarea(placeholder = 'Mô tả...' name = 'description' value = role.description)

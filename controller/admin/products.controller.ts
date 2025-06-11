@@ -65,4 +65,41 @@ export const edit = async (req: Request, res: Response) => {
   });
 };
 
-export const edit_patch = async (req: Request, res: Response) => {};
+export const edit_patch = async (req: Request, res: Response) => {
+  delete req.body.images;
+  await Product.updateOne({
+    _id: req.params.id
+  }, req.body);
+  
+  res.cookie(
+    "alert",
+    JSON.stringify({
+      icon: "success",
+      title: "Cập nhật thành công!",
+    })
+  );
+  res.json({
+    success: true,
+    message: 'Cập nhật thành công!'
+  })
+};
+
+
+export const delete_soft = async (req: Request, res: Response) => {
+  await Product.updateOne({
+    _id: req.params.id
+  }, {
+    deleted: true
+  });
+  res.cookie(
+    "alert",
+    JSON.stringify({
+      icon: "success",
+      title: "Xóa (mềm) sản phẩm thành công!",
+    })
+  );
+  res.json({
+    success: true,
+    message: "Xóa (mềm) sản phẩm thành công!"
+  })
+};

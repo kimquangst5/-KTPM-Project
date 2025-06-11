@@ -45,4 +45,6 @@ const router = express_1.default.Router();
 router.get("/index", controller.index);
 router.get("/create", controller.create);
 router.post("/create", upload.single("avatar"), upload_image_middleware_1.upload_single, controller.create_post);
+router.get("/cap-nhat/:id", controller.update);
+router.patch("/cap-nhat/:id", controller.update_patch);
 exports.default = router;

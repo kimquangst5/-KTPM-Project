@@ -5,12 +5,13 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css")
         link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.min.css")
+        link(rel="stylesheet", href="/admin/css/style.css")
         script(src="https://cdn.tailwindcss.com/") 
         title Document
     body
         div(class="flex no-wrap")
             include ../partials/sider.pug
-            div(class="flex-1 p-[1rem]") 
+            div(class="flex-1 p-[1rem] h-screen overflow-y-auto") 
                 block main
         script(src="https://cdn.jsdelivr.net/npm/axios@1.9.0/dist/axios.min.js")
         script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.all.min.js") 

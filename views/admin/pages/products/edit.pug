@@ -1,11 +1,15 @@
 extends ../../layouts/layout.pug
 include ../../components/create_tree.mixin.pug
 block script
-    script(src="/admin/js/products/create.js")
+    script(src="/admin/js/products/edit.js")
 block main
-    h1(class="w-full text-[20px] font-bold") Chỉnh sửa sản phẩm (#{product.name})
-    button(class="ml-auto block " btn-submit) Cập nhật
-    form(action="/admin/products/create" method = 'post' class="flex flex-col gap-y-[10px]" new-products)
+    div(class="flex items-center justify-between mb-[1rem]") 
+        h1(class="w-full text-[20px] font-bold") Chỉnh sửa sản phẩm (#{product.name})
+        div(class="flex gap-x-[1rem]")
+            sl-button(href="/admin/products/index" variant='primary' size='small' outline) Quay lại danh sách
+            sl-button(btn-submit variant='primary' size='small' ) Cập nhật
+    
+    form(action=`/admin/products/edit/${product._id}` method = 'patch' class="flex flex-col gap-y-[10px]" update-products)
         label(for='name') Tên sản phẩm
         input(id = 'name' type="text" placeholder = 'Tên sản phẩm...' name = 'name' required value=product.name)
         label(for='description') Mô tả sản phẩm
@@ -14,9 +18,11 @@ block main
         input(id = 'price' type="number"  placeholder = 'Giá trước khi giảm...' name = 'price' value=product.price )
         label(for='discount') % giảm giá
         input(id = 'discount' type="number" placeholder = '% giảm giá...' name = 'discount' value=product.discount  )
+        label(for='quantity') Số lượng
+        input(id = 'quantity' type="number" placeholder = 'Số lượng...' name = 'quantity' value=product.quantity)
         select(name="product_categories" class="w-full" )
             option(value='') ---Lựa chọn---
-            +create_tree(tree_categories, null, 0, product.product_categories._id)
+            +create_tree(tree_categories, null, 0, product.product_categories ? product.product_categories._id : null)
         label(for='images') Ảnh sản phẩm
         div(class="flex gap-x-[10px]") 
             each it in product.images

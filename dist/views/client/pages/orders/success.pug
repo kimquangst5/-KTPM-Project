@@ -24,43 +24,43 @@ block main
                                     th Đơn giá
                                     th Số lượng
                                     th Giá tiền
-                                    th Hành động
                             tbody
                                 each product, index in order.infor_products
                                     tr
-                                        - total_price += product.quantity * (product.product_id.price - (product.product_id.price * product.product_id.discount / 100))
+                                        - total_price += product.quantity * (product.price - (product.price * product.discount / 100))
                                         td #{index + 1}
                                         td
                                             a(href=`/san-pham/${product.product_id.slug}`)
                                                 img(src=product.product_id.images[0] ? product.product_id.images[0].secure_url : '' alt = product.product_id.name class="h-[80px] w-auto")
-                                        td
+                                        td(class="flex w-[200px]")
                                             a(href=`/san-pham/${product.product_id.slug}` class=" text-wrap") #{product.product_id.name}
                                         td
-                                            sl-format-number(type="currency" currency="VND" value=product.product_id.price - (product.product_id.price * product.product_id.discount / 100) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
+                                            sl-format-number(type="currency" currency="VND" value=product.price - (product.price * product.discount / 100) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
                                         td #{product.quantity}
                                         td
-                                            sl-format-number(type="currency" currency="VND" value=product.quantity * (product.product_id.price - (product.product_id.price * product.product_id.discount / 100)) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
-                                        td
-                                            a(href=`/gio-hang/xoa-san-pham/${product._id}`) Xóa
+                                            sl-format-number(type="currency" currency="VND" value=product.quantity * (product.price - (product.price * product.discount / 100)) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
+                                        
                     
-                    //-     div(class="border-[1px] my-10 border-accent rounded-[15px] p-5 flex flex-col gap-y-5")
-                    //-         h2(class="font-bold text-[20px]") Thông tin giao hàng
-                    //-         div(class="flex flex-col gap-y-[10px]") 
-                    //-             sl-input(label='Khách hàng' value = carts[0].user_id.fullname size='small' name = 'fullname')
-                    //-             sl-input(label='Email' value = carts[0].user_id.email size='small' name = 'email')
-                    //-             sl-input(label='Số điện thoại liên lạc' value = carts[0].user_id.phone size='small' name = 'phone')
-                    //-             sl-input(label='Địa chỉ' value = carts[0].user_id.address size='small' name = 'address')
-                    //-             sl-input(label='Thành phố' value = carts[0].user_id.city size='small' name = 'city')
-                    //-             sl-input(label='Quốc gia' value = carts[0].user_id.country size='small' name = 'country')
-                    //- div(class="border-[1px] border-accent rounded-[15px] p-5 flex flex-col gap-y-5")
-                    //-     h2(class="font-bold text-[18px] py-[10px]") Thống kê giỏ hàng
-                    //-     div(class="grid grid-cols-2")
-                    //-         div(class="") Số lượng sản phẩm: 
-                    //-         div(class="") #{carts.length} sản phẩm
-                    //-     div(class="grid grid-cols-2")
-                    //-         div(class="") Thành tiền:
-                    //-         sl-format-number(type="currency" currency="VND" value=total_price lang="vi" class="text-secondary mt-1 mr-3 font-bold")
-                    //-     div(class="grid grid-cols-2")
-                    //-         div(class="") Phương thức thanh toán:
-                    //-         div(class="font-bold") Tiền mặt
-                    //-     sl-button(variant="neutral" btn-add-order = `/don-hang/them-don-hang`) Đặt hàng ngay
+                        div(class="border-[1px] my-10 border-accent rounded-[15px] p-5 flex flex-col gap-y-5")
+                            h2(class="font-bold text-[20px]") Thông tin giao hàng
+                            div(class="flex flex-col gap-y-[10px]") 
+                                sl-input(disabled label='Khách hàng' value = order.infor_user.fullname size='small' name = 'fullname')
+                                sl-input(disabled label='Email' value = order.infor_user.email size='small' name = 'email')
+                                sl-input(disabled label='Số điện thoại liên lạc' value = order.infor_user.phone size='small' name = 'phone')
+                                sl-input(disabled label='Địa chỉ' value = order.infor_user.address size='small' name = 'address')
+                                sl-input(disabled label='Thành phố' value = order.infor_user.city size='small' name = 'city')
+                                sl-input(disabled label='Quốc gia' value = order.infor_user.country size='small' name = 'country')
+                    div(class="border-[1px] border-accent rounded-[15px] p-5 flex flex-col gap-y-5 h-max")
+                        h2(class="font-bold text-[18px] py-[10px]") Thống kê giỏ hàng
+                        div(class="grid grid-cols-2")
+                            div(class="") Số lượng sản phẩm: 
+                            div(class="") #{order.infor_products.length} sản phẩm
+                        div(class="grid grid-cols-2")
+                            div(class="") Thành tiền:
+                            sl-format-number(type="currency" currency="VND" value=total_price lang="vi" class="text-secondary mt-1 mr-3 font-bold")
+                        div(class="grid grid-cols-2")
+                            div(class="") Phương thức thanh toán:
+                            div(class="font-bold") Tiền mặt
+                        div(class="grid grid-cols-2")
+                            div(class="") Trạng thái:
+                            div(class="font-bold") Đặt hàng thành công

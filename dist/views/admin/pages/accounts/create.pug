@@ -5,9 +5,9 @@ block script
 block main
     h1(class="w-full text-[20px] font-bold") Trang thêm tài khoản quản trị
     button(class="ml-auto block " btn-submit) Thêm mới
-    form(action="/admin/accounts/create" method = 'post' class="flex flex-col gap-y-[10px]" new-account) 
-        input(type="text" placeholder = 'Tên đăng nhập...' name = 'username')
-        input(type="password" placeholder = 'Mật khẩu...' name = 'password')
+    form(action="/admin/accounts/create" method = 'post' class="flex flex-col gap-y-[10px]" new-account autocomplete="off") 
+        input(type="text" placeholder = 'Tên đăng nhập...' name = 'username' autocomplete="off" value='')
+        input(type="password" placeholder = 'Mật khẩu...' name = 'password' autocomplete="off" value='')
         input(type="password" placeholder = 'Xác nhận mật khẩu...' name = 'confim-password')
         label(for='role') Vai trò
         select(id = 'role' name = 'role_id')

@@ -22,11 +22,16 @@ router.post(
 
 router.get("/edit/:id", controller.edit);
 
-router.post(
+router.patch(
   "/edit/:id",
   upload.array("images", 6),
   upload_multi,
   controller.edit_patch
+);
+
+router.patch(
+  "/xoa-mem/:id",
+  controller.delete_soft
 );
 
 
