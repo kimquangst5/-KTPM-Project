@@ -3,10 +3,9 @@ import "dotenv/config";
 import route_admin from "./routers/admin/index.route";
 import route_client from "./routers/client/index.route";
 import body_parser from "body-parser";
-import database_connect from './configs/database.config'
+import './configs/database.config'
 import cookie_parser from "cookie-parser";
 
-database_connect();
 const app = express();
 const port = 3000;
 

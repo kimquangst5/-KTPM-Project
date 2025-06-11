@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export default async () => {
+const connect = async () => {
     try {
         console.log(`Kết nối database thành công!`);
         await mongoose.connect(process.env.DATABASE_CONNECT);
@@ -10,3 +10,5 @@ export default async () => {
         
     }
 }
+
+connect()
