@@ -14,6 +14,7 @@ const main = () => {
         form_data.append('fullname', form.querySelector("[name = 'fullname' ]").value);
         form_data.append('birthday', form.querySelector("[name = 'birthday' ]").value);
         form_data.append('role_id', form.querySelector("[name = 'role_id' ]").value);
+        form_data.append('email', form.querySelector("[name = 'email' ]").value);
 
         
         axios.post(form.getAttribute("action"), form_data)
@@ -25,7 +26,6 @@ const main = () => {
                 }
             })
     })
-
 }
 
 main();

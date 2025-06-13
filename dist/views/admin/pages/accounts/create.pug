@@ -5,15 +5,18 @@ block script
 block main
     h1(class="w-full text-[20px] font-bold") Trang thêm tài khoản quản trị
     button(class="ml-auto block " btn-submit) Thêm mới
-    form(action="/admin/accounts/create" method = 'post' class="flex flex-col gap-y-[10px]" new-account autocomplete="off") 
-        input(type="text" placeholder = 'Tên đăng nhập...' name = 'username' autocomplete="off" value='')
-        input(type="password" placeholder = 'Mật khẩu...' name = 'password' autocomplete="off" value='')
-        input(type="password" placeholder = 'Xác nhận mật khẩu...' name = 'confim-password')
-        label(for='role') Vai trò
-        select(id = 'role' name = 'role_id')
-            option(value='') ---Lựa chọn---
-            each role in roles
-                option(value=role.id) #{role.name}
-        input(type="file" accept = 'image/*' placeholder = 'Avatar...' name = 'avatar')
-        input(type="text" placeholder = 'Họ và tên...' name = 'fullname')
-        input(type="date" placeholder = 'Ngày sinh...' name = 'birthday')
+    form(action="/admin/accounts/create" method = 'post' class="" new-account autocomplete="off")
+        div(class="grid grid-cols-2 items-center gap-x-4")
+            div(class="flex flex-col gap-y-[10px]")
+                sl-input(size='small' label = 'Tên đăng nhập...' type="text" placeholder = 'Tên đăng nhập...' name = 'username' autocomplete="off" value='')
+                sl-input(size='small' label = 'Mật khẩu...' type="password" placeholder = 'Mật khẩu...' name = 'password' autocomplete="off" value='')
+                sl-input(size='small' type="password" label = 'Xác nhận mật khẩu...' placeholder = 'Xác nhận mật khẩu...' name = 'confim-password')
+                sl-select(id = 'role' name = 'role_id' label = 'Vai trò' size='small')
+                    SL-option(value='') ---Lựa chọn---
+                    each role in roles
+                        sl-option(value=role.id) #{role.name}
+                sl-input(label = 'Email' size='small' type="text" placeholder = 'Email...' name = 'email')
+                sl-input(label = 'Họ và tên...' size='small' type="text" placeholder = 'Họ và tên...' name = 'fullname')
+                sl-input(label = 'Sinh nhật...' size='small' type="date" placeholder = 'Ngày sinh...' name = 'birthday')
+            div(class="") 
+                input(size='small' type="file" accept = 'image/*' placeholder = 'Avatar...' name = 'avatar')

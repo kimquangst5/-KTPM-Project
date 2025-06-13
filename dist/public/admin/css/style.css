@@ -1,3 +1,9 @@
 table, th, td{
     border: 1px solid #B7B7B7;
 }
+
+:root{
+    --sl-color-primary-600: #00adef ;
+    --sl-input-label-color: #6b7385;
+    --sl-input-required-content-color: #c2000c;
+}

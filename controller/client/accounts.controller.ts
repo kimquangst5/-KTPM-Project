@@ -86,7 +86,6 @@ export const register_post = async (req: Request, res: Response) => {
       typ: "JWT",
       alg: "HS256",
     },
-    
   })
   await UserAccount.create(req.body);
   res.cookie("token", req.body.token, {

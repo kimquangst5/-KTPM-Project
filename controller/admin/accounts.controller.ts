@@ -5,6 +5,11 @@ import Account from "../../models/admin_accounts.model";
 import Assets from "../../models/assets.model";
 import { bcrypt_hash } from "../../helpers/bcrypt.helper";
 import { parse_date } from "../../helpers/format_date.helper";
+import { jwt_create } from "../../helpers/jwt.helpers";
+
+export const login = async (req: Request, res: Response) => {
+  res.render('admin/pages/accounts/login.pug')
+}
 
 export const index = async (req: Request, res: Response) => {
   const accounts = await Account.find({
@@ -27,12 +32,30 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const create_post = async (req: Request, res: Response) => {
+  req.body._id = new ObjectId();
   if(req.body["avatar"]){
     const avatar = await Assets.create(req.body["avatar"]);
     req.body["avatar"] = avatar._id;
   }
   req.body.password = await bcrypt_hash(req.body.password);
   req.body.role_id = (req.body.role_id ? new ObjectId(req.body.role_id): null);
+  req.body.token = await jwt_create({
+      _id: req.body._id,
+      email: req.body.email,
+      username: req.body.username,
+    }, {
+      expiresIn: '1d',
+      issuer: "ecommerce-app",
+      audience: "manager",
+      subject: "admin_account",
+      algorithm: "HS256",
+      noTimestamp: true,
+      jwtid: req.body._id.toString(),
+      header: {
+        typ: "JWT",
+        alg: "HS256",
+      },
+    })
   await Account.create(req.body);
   res.json({
     success: true,

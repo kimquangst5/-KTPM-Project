@@ -12,13 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update_patch = exports.update = exports.create_post = exports.create = exports.index = void 0;
+exports.update_patch = exports.update = exports.create_post = exports.create = exports.index = exports.login = void 0;
 const mongodb_1 = require("mongodb");
 const roles_model_1 = __importDefault(require("../../models/roles.model"));
 const admin_accounts_model_1 = __importDefault(require("../../models/admin_accounts.model"));
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
 const bcrypt_helper_1 = require("../../helpers/bcrypt.helper");
 const format_date_helper_1 = require("../../helpers/format_date.helper");
+const jwt_helpers_1 = require("../../helpers/jwt.helpers");
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.render('admin/pages/accounts/login.pug');
+});
+exports.login = login;
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accounts = yield admin_accounts_model_1.default.find({
         deleted: false,
@@ -40,12 +45,30 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.create = create;
 const create_post = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    req.body._id = new mongodb_1.ObjectId();
     if (req.body["avatar"]) {
         const avatar = yield assets_model_1.default.create(req.body["avatar"]);
         req.body["avatar"] = avatar._id;
     }
     req.body.password = yield (0, bcrypt_helper_1.bcrypt_hash)(req.body.password);
     req.body.role_id = (req.body.role_id ? new mongodb_1.ObjectId(req.body.role_id) : null);
+    req.body.token = yield (0, jwt_helpers_1.jwt_create)({
+        _id: req.body._id,
+        email: req.body.email,
+        username: req.body.username,
+    }, {
+        expiresIn: '1d',
+        issuer: "ecommerce-app",
+        audience: "manager",
+        subject: "admin_account",
+        algorithm: "HS256",
+        noTimestamp: true,
+        jwtid: req.body._id.toString(),
+        header: {
+            typ: "JWT",
+            alg: "HS256",
+        },
+    });
     yield admin_accounts_model_1.default.create(req.body);
     res.json({
         success: true,

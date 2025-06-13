@@ -1,0 +1,22 @@
+extends ../../layouts/layout-2.pug
+
+block css
+    link(rel="stylesheet", href="/admin/css/accounts/login.css")
+block script
+    script(src="/admin/js/accounts/login.js")
+
+block main
+    div(class="grid grid-cols-2 h-screen truncate items-center")
+        div(class="")
+            include ../../partials/backgroud-img.pug
+        div(class="p-[1rem]")
+            h1(class="font-bold text-center text-[2rem]  text-[#00adef] my-[2rem]") Đăng nhập quản trị
+            form(action="" method='patch' autocomplete="off")
+                div(class="flex flex-col gap-y-7") 
+                    div(class="flex flex-col gap-y-4") 
+                        sl-input(size='small' label = 'Tài khoản' required autocomplete="off" autocapitalize = 'off' autofocus name = 'account')
+                            sl-icon(name="person" slot="prefix")
+                        sl-input(size='small' label = 'Mật khẩu' required type = 'password' password-toggle clearable autocomplete="off" name = 'password')
+                            sl-icon(name="shield-lock" slot="prefix")
+                        sl-checkbox(size='small' name = 'remember') Ghi nhớ tài khoản
+                    sl-button(size='small' variant = 'primary') Đăng nhập

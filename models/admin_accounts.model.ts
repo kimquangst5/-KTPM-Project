@@ -28,6 +28,7 @@ const role_schema = new Schema(
       ref: "Role",
     },
     birthday: Date,
+    email: String
   },
   {
     timestamps: true,

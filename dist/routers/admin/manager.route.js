@@ -32,39 +32,12 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importStar(require("mongoose"));
-const status_const_1 = require("../constants/status.const");
-const role_schema = new mongoose_1.Schema({
-    fullname: String,
-    username: {
-        type: String,
-        unique: true,
-    },
-    password: String,
-    token: String,
-    deleted: {
-        type: Boolean,
-        default: false,
-    },
-    status: {
-        type: Number,
-        default: status_const_1.accounts_const.ACTIVE,
-    },
-    avatar: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "Asset",
-        default: null,
-    },
-    role_id: {
-        type: mongoose_1.default.Schema.Types.Mixed,
-        ref: "Role",
-    },
-    birthday: Date,
-    email: String
-}, {
-    timestamps: true,
-    autoCreate: true,
-});
-const Account = (0, mongoose_1.model)("Admin Account", role_schema);
-exports.default = Account;
+const express_1 = __importDefault(require("express"));
+const controller = __importStar(require("../../controller/admin/manager.controller"));
+const router = express_1.default.Router();
+router.get("", controller.login);
+exports.default = router;
