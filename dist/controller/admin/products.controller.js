@@ -52,8 +52,13 @@ const create_post = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
     req.body.images = req.body.images.map((it) => new mongodb_1.ObjectId(it._id));
     yield products_model_1.default.create(req.body);
+    res.cookie("alert", JSON.stringify({
+        icon: 'success',
+        title: "Thêm sản phẩm thành công!",
+    }));
     res.json({
         success: true,
+        message: 'Thêm sản phẩm thành công!'
     });
 });
 exports.create_post = create_post;

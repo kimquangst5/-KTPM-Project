@@ -38,6 +38,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const controller = __importStar(require("../../controller/admin/manager.controller"));
+const manager_validate_1 = require("../../validation/admin/manager.validate");
 const router = express_1.default.Router();
 router.get("", controller.login);
+router.patch("/dang-nhap", manager_validate_1.login_patch_validate, controller.login_patch);
 exports.default = router;

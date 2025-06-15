@@ -24,6 +24,9 @@ const main = () => {
                     form.querySelector("[name = 'password' ]").value = '';
                     alert('Thêm thành công!')
                 }
+                else{
+                    quick_alert('warning', res.data.message.join('\n'))
+                }
             })
     })
 }

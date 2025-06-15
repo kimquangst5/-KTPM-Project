@@ -48,7 +48,7 @@ const login_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         icon: "success",
         title: "Đăng nhập thành công",
     }));
-    res.cookie("token", new_token);
+    res.cookie("tokenUser", new_token);
     res.json({
         success: true,
         message: "Đăng nhập thành công!"
@@ -81,7 +81,7 @@ const register_post = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         },
     });
     yield user_accounts_model_1.default.create(req.body);
-    res.cookie("token", req.body.token, {
+    res.cookie("tokenUser", req.body.token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -96,7 +96,7 @@ const register_post = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.register_post = register_post;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.clearCookie("token");
+    res.clearCookie("tokenUser");
     res.clearCookie("alert");
     res.cookie("alert", JSON.stringify({
         icon: "success",

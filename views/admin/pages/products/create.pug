@@ -1,23 +1,35 @@
 extends ../../layouts/layout.pug
 include ../../components/create_tree.mixin.pug
+
+block css
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/filepond@4.32.8/dist/filepond.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/filepond-plugin-image-preview@4.6.12/dist/filepond-plugin-image-preview.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/filepond-plugin-image-edit@1.6.3/dist/filepond-plugin-image-edit.min.css")
+
 block script
-    script(src="/admin/js/products/create.js")
+    //- script( src="https://cdn.jsdelivr.net/npm/pintura@0.3.10/pintura.min.js") 
+    script(src="https://cdn.jsdelivr.net/npm/filepond@4.32.8/dist/filepond.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-preview@4.6.12/dist/filepond-plugin-image-preview.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-file-validate-size@2.2.8/dist/filepond-plugin-file-validate-size.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-exif-orientation@1.0.11/dist/filepond-plugin-image-exif-orientation.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-edit@1.6.3/dist/filepond-plugin-image-edit.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-file-validate-type@1.2.9/dist/filepond-plugin-file-validate-type.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-resize@2.0.10/dist/filepond-plugin-image-resize.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-crop@2.0.6/dist/filepond-plugin-image-crop.min.js") 
+    script(type = "module" src="/admin/js/products/create.js")
+
 block main
     h1(class="w-full text-[20px] font-bold") Thêm sản phẩm
     button(class="ml-auto block " btn-submit) Thêm mới
     form(action="/admin/products/create" method = 'post' class="flex flex-col gap-y-[10px]" new-products)
-        label(for='name') Tên sản phẩm
-        input(id = 'name' type="text" placeholder = 'Tên sản phẩm...' name = 'name' required)
-        label(for='description') Mô tả sản phẩm
-        input(id = 'description' type="text" placeholder = 'Mô tả sản phẩm...' name = 'description')
-        label(for='price') Giá trước khi giảm
-        input(id = 'price' type="number"  placeholder = 'Giá trước khi giảm...' name = 'price')
-        label(for='discount') % giảm giá
-        input(id = 'discount' type="number" placeholder = '% giảm giá...' name = 'discount')
-        label(for='quantity') Số lượng
-        input(id = 'quantity' type="number" placeholder = 'Số lượng...' name = 'quantity')
-        select(name="product_categories" class="w-full")
-            option(value='') ---Lựa chọn---
+        sl-input(size = 'small' label = 'Tên sản phẩm' id = 'name' type="text" placeholder = 'Tên sản phẩm...' name = 'name' required)
+        sl-input(size = 'small' required label = 'Mô tả sản phẩm' id = 'description' type="text" placeholder = 'Mô tả sản phẩm...' name = 'description')
+        sl-input(size = 'small' required label = 'Giá trước khi giảm'  id = 'price' type="number"  placeholder = 'Giá trước khi giảm...' name = 'price')
+        sl-input(size = 'small' id = 'discount' required label = '% giảm giá' type="number" placeholder = '% giảm giá...' name = 'discount')
+        sl-input(size = 'small' required label = 'Số lượng' id = 'quantity' type="number" placeholder = 'Số lượng...' name = 'quantity')
+        sl-select(size = 'small' required name="product_categories" label = 'Danh mục' class="w-full")
+            sl-option(value='') ---Lựa chọn---
             +create_tree(tree_categories, null, 0)
         label(for='images') Ảnh sản phẩm
-        input(id= 'images' multiple type="file" accept = 'image/*' placeholder = 'Ảnh sản phẩm...' name = 'images')
+        input(id= 'images' multiple type="file" accept = 'image/*' placeholder = 'Ảnh sản phẩm...' name = 'images' class="filepond" data-allow-reorder="true" data-max-file-size="3MB" data-max-files="3")
+

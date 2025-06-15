@@ -12,8 +12,25 @@ const main = () => {
         const account = document.querySelector("[name = 'account']")
         const password = document.querySelector("[name = 'password']")
         const remember = document.querySelector("[name = 'remember']");
-        axios.patch(form.getAttribute('action'))
+        const url = new URL(location.href)
         
+        axios.patch(form.getAttribute('action'), {
+            account: account.value,
+            password: password.value,
+            remember: remember.checked,
+            continue: url.searchParams.get('continue')
+        })
+            .then(res => {
+                if(res.data.success){
+                    if (res.data.continue) location.href = res.data.continue;
+                    else location.href = '/admin/products/index';
+                    
+                }
+                else{
+                    quick_alert('warning', res.data.message.join('\n'))
+                }
+            })
+
     })
 }
 

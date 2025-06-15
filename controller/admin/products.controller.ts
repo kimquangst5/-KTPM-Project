@@ -42,10 +42,18 @@ export const create_post = async (req: Request, res: Response) => {
     it._id = new ObjectId(result._id);
   }
   req.body.images = req.body.images.map((it: any) => new ObjectId(it._id));
-  await Product.create(req.body)
+  await Product.create(req.body);
+  res.cookie(
+    "alert",
+    JSON.stringify({
+      icon: 'success',
+      title: "Thêm sản phẩm thành công!",
+    })
+  );
   
   res.json({
     success: true,
+    message: 'Thêm sản phẩm thành công!'
   });
 };
 

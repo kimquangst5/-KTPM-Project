@@ -14,7 +14,11 @@ app.set("views", `${__dirname}/views`);
 
 app.use(body_parser.urlencoded());
 app.use(body_parser.json());
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(`${__dirname}/public`, { redirect: false }));
+app.use(
+  "/node_modules",
+  express.static(`${__dirname}/node_modules`, { redirect: false })
+);
 
 app.use(cookie_parser());
 

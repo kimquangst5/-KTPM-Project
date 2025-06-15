@@ -39,7 +39,7 @@ const add_to_cart = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.add_to_cart = add_to_cart;
 const get_cart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = req.cookies.token;
+    const token = req.cookies.tokenUser;
     const data = yield (0, jwt_helpers_1.jwt_verify)(token);
     const carts = yield carts_model_1.default.find({ user_id: new mongodb_1.ObjectId(data._id) })
         .populate("user_id")

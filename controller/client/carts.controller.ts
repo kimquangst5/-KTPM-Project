@@ -39,7 +39,7 @@ export const add_to_cart = async (req: Request, res: Response) => {
 };
 
 export const get_cart = async (req: Request, res: Response) => {
-  const token = req.cookies.token;
+  const token = req.cookies.tokenUser;
   const data = await jwt_verify(token);
   const carts = await Carts.find({ user_id: new ObjectId(data._id) })
     .populate("user_id")

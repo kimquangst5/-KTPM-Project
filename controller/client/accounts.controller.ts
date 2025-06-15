@@ -44,7 +44,7 @@ export const login_patch = async (req: Request, res: Response) => {
     icon: "success",
     title: "Đăng nhập thành công",
   }));
-  res.cookie("token", new_token);
+  res.cookie("tokenUser", new_token);
 
   res.json({
     success: true,
@@ -88,7 +88,7 @@ export const register_post = async (req: Request, res: Response) => {
     },
   })
   await UserAccount.create(req.body);
-  res.cookie("token", req.body.token, {
+  res.cookie("tokenUser", req.body.token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
@@ -102,7 +102,7 @@ export const register_post = async (req: Request, res: Response) => {
   })
 };
 export const logout = async (req: Request, res: Response) => {
-  res.clearCookie("token");
+  res.clearCookie("tokenUser");
   res.clearCookie("alert");
   res.cookie("alert", JSON.stringify({
     icon: "success",

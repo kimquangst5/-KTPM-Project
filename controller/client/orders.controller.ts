@@ -13,7 +13,7 @@ import Carts from "../../models/carts.model";
 import Order from "../../models/orders.model";
 
 export const add_order = async (req: Request, res: Response) => {
-  const token = req.cookies.token;
+  const token = req.cookies.tokenUser;
   const data = await jwt_verify(token);
   req.body.infor_user.user_id = data._id;
   const carts = await Carts.find({

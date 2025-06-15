@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_login_validate = void 0;
-const user_accounts_model_1 = __importDefault(require("../../models/user_accounts.model"));
 const jwt_helpers_1 = require("../../helpers/jwt.helpers");
+const admin_accounts_model_1 = __importDefault(require("../../models/admin_accounts.model"));
 const check_login_validate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = req.cookies.tokenUser;
+    const token = req.cookies.token;
     try {
         if (token) {
             const data = yield (0, jwt_helpers_1.jwt_verify)(token);
@@ -25,32 +25,35 @@ const check_login_validate = (req, res, next) => __awaiter(void 0, void 0, void 
                     icon: "warning",
                     title: "Hết phiên đăng nhập\nVui lòng đăng nhập lại.",
                 }));
-                res.clearCookie("tokenUser");
+                res.clearCookie("token");
             }
             else {
-                const user = yield user_accounts_model_1.default.findOne({
+                const user = yield admin_accounts_model_1.default.findOne({
                     _id: data._id,
                     email: data.email,
                     username: data.username,
                 }).select("-password -__v -createdAt -updatedAt");
-                res.locals.INFOR_USER = user;
                 if (token != user["token"]) {
-                    res.clearCookie("tokenUser");
+                    res.clearCookie("token");
                     res.cookie("alert", JSON.stringify({
                         icon: "warning",
                         title: "Tài khoản của bạn đã được đăng nhập ở nơi khác!.",
                     }));
-                    res.redirect('/');
+                    res.redirect('/admin');
                     return;
                 }
+                res.locals.INFOR_ADMIN = user;
+                next();
             }
         }
-        next();
+        else {
+            res.redirect(`/admin?continue=${req.path}`);
+        }
     }
     catch (error) {
         if (token) {
-            res.clearCookie("tokenUser");
-            res.redirect("/");
+            res.clearCookie("token");
+            res.redirect("/admin");
         }
     }
 });

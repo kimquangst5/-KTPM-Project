@@ -18,7 +18,7 @@ const jwt_helpers_1 = require("../../helpers/jwt.helpers");
 const carts_model_1 = __importDefault(require("../../models/carts.model"));
 const orders_model_1 = __importDefault(require("../../models/orders.model"));
 const add_order = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = req.cookies.token;
+    const token = req.cookies.tokenUser;
     const data = yield (0, jwt_helpers_1.jwt_verify)(token);
     req.body.infor_user.user_id = data._id;
     const carts = yield carts_model_1.default.find({
