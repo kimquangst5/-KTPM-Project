@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_login_validate = void 0;
+exports.check_login_admin = void 0;
 const jwt_helpers_1 = require("../../helpers/jwt.helpers");
 const admin_accounts_model_1 = __importDefault(require("../../models/admin_accounts.model"));
-const check_login_validate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const check_login_admin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.cookies.token;
     try {
         if (token) {
@@ -57,4 +57,4 @@ const check_login_validate = (req, res, next) => __awaiter(void 0, void 0, void 
         }
     }
 });
-exports.check_login_validate = check_login_validate;
+exports.check_login_admin = check_login_admin;

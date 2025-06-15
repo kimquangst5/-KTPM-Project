@@ -3,7 +3,7 @@ import UserAccount from "../../models/user_accounts.model";
 import { jwt_verify } from "../../helpers/jwt.helpers";
 import Account from "../../models/admin_accounts.model";
 
-export const check_login_validate = async (
+export const check_login_admin = async (
   req: Request,
   res: Response,
   next: NextFunction

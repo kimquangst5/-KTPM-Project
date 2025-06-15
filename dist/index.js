@@ -19,8 +19,8 @@ app.use(body_parser_1.default.json());
 app.use(express_1.default.static(`${__dirname}/public`, { redirect: false }));
 app.use("/node_modules", express_1.default.static(`${__dirname}/node_modules`, { redirect: false }));
 app.use((0, cookie_parser_1.default)());
-(0, index_route_1.default)(app);
 (0, index_route_2.default)(app);
+(0, index_route_1.default)(app);
 app.listen(port, () => {
     console.log(`Website đang chạy trên cổng ${port}`);
 });

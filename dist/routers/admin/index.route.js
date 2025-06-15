@@ -14,7 +14,7 @@ const router = express_1.default.Router();
 const index = (app) => {
     app.set("strict routing", false);
     app.use("/admin", manager_route_1.default);
-    app.use(check_login_middleware_1.check_login_validate);
+    app.use(check_login_middleware_1.check_login_admin);
     app.use("/admin/roles", roles_route_1.default);
     app.use("/admin/accounts", accounts_route_1.default);
     app.use("/admin/product_categories", product_categories_route_1.default);

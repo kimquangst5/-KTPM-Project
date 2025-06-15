@@ -22,8 +22,8 @@ app.use(
 
 app.use(cookie_parser());
 
-route_admin(app);
 route_client(app);
+route_admin(app);
 
 
 app.listen(port, () => {
