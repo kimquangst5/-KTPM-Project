@@ -83,15 +83,23 @@ export const edit_patch = async (req: Request, res: Response) => {
   req.body.product_categories = (req.body.product_categories ? req.body.product_categories : null)
   let index = 0;
   let array_data = []
-  for (const it of JSON.parse(req.body.array_data_image)) {
-    if(it.new == true){
-      const new_result = await Assets.create(req.body.images[index]);
-      it["assets_id"] = new_result._id;
-      index++;
+  if (
+    req.body.array_data_image &&
+    JSON.parse(req.body.array_data_image).length > 0
+  ) {
+    for (const it of JSON.parse(req.body.array_data_image)) {
+      if (it.new == true) {
+        const new_result = await Assets.create(req.body.images[index]);
+        it["assets_id"] = new_result._id;
+        index++;
+      }
+      array_data.push(it);
     }
-    array_data.push(it)
+    req.body.images = array_data;
+  } else {
+    delete req.body.images;
   }
-  req.body.images = array_data;
+    
   
   await Product.updateOne({
     _id: req.params.id
