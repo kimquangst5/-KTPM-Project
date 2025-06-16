@@ -11,14 +11,14 @@ block main
                     sl-carousel(loop navigation class="carousel-thumbnails")
                         each image in product.images
                             sl-carousel-item
-                                img(src=image.secure_url alt=product.name class=" h-[100px] rounded")
+                                img(src=image.assets_id.secure_url alt=product.name class=" h-[100px] rounded")
                     div(class="thumbnails")
                         div(class="thumbnails__scroller !h-[80px]")
                             each image in product.images
                                 sl-carousel-item
-                                    img(src=image.secure_url alt=product.name class=" thumbnails__image ")
+                                    img(src=image.assets_id.secure_url alt=product.name class=" thumbnails__image ")
                 div(class="")
-                    div(class="") 
+                    div(class="")
                         h1(class="text-[20px] font-bold my-[20px]") #{product.name}
                         sl-format-number(type="currency" currency="VND" value=product.price - (product.price * product.discount / 100) lang="vi" class="text-secondary mt-1 mr-3 font-bold")
                         - if(product.discount > 0)

@@ -13,10 +13,9 @@ export const detail = async (req: Request, res: Response) => {
   const product = await Product.findOne({
     slug: req.params.slug,
     deleted: false,
-  })
-    .populate({
-      path: "product_categories images",
-    });
+  }).populate({
+    path: "product_categories images.assets_id",
+  });
     
   res.render("client/pages/products/detail.pug", {
     product,
@@ -26,7 +25,7 @@ export const detail = async (req: Request, res: Response) => {
 export const list = async (req: Request, res: Response) => {
   const products = await Product.find({ deleted: false })
     .populate({
-      path: "product_categories images",
+      path: "product_categories images.assets_id",
     });
 
   res.render("client/pages/products/list.pug", {

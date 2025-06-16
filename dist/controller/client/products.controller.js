@@ -18,9 +18,8 @@ const detail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield products_model_1.default.findOne({
         slug: req.params.slug,
         deleted: false,
-    })
-        .populate({
-        path: "product_categories images",
+    }).populate({
+        path: "product_categories images.assets_id",
     });
     res.render("client/pages/products/detail.pug", {
         product,
@@ -30,7 +29,7 @@ exports.detail = detail;
 const list = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const products = yield products_model_1.default.find({ deleted: false })
         .populate({
-        path: "product_categories images",
+        path: "product_categories images.assets_id",
     });
     res.render("client/pages/products/list.pug", {
         products,
