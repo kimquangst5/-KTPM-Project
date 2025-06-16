@@ -16,9 +16,12 @@ const products_schema = new Schema(
     quantity: Number,
     images: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Asset",
-        default: null,
+        assets_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Asset",
+          default: null,
+        },
+        position: Number
       },
     ],
     slug: {

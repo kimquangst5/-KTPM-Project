@@ -1,4 +1,16 @@
 
+var upload;
+const init_preview_image = () => {
+    upload = new FileUploadWithPreview.FileUploadWithPreview('preview-image', {
+        multiple: true,
+        accept: 'image/*',
+        maxFileCount: 6,
+        showDeleteButtonOnImages: true,
+    });
+}
+
+init_preview_image()
+
 const main = () => {
     const form = document.querySelector('form[new-products]');
     const btn_submit = document.querySelector('[btn-submit]');
@@ -14,12 +26,18 @@ const main = () => {
         form_data.append('discount', form.querySelector("[name = 'discount' ]").value);
         form_data.append('product_categories', form.querySelector("[name = 'product_categories' ]").value);
         form_data.append('quantity', form.querySelector("[name = 'quantity' ]").value);
-        let list_files = form.querySelector("[name = 'images' ]").files
-        if (list_files && list_files.length > 0) {
-            for (const file of list_files) {
+        console.log(upload.cachedFileArray)
+        if (upload.cachedFileArray && upload.cachedFileArray.length > 0){
+            for (const file of upload.cachedFileArray) {
                 form_data.append('images', file);
             }
         }
+        // let list_files = form.querySelector("[name = 'images' ]").files
+        // if (list_files && list_files.length > 0) {
+        //     for (const file of list_files) {
+        //         form_data.append('images', file);
+        //     }
+        // }
         axios.post(form.getAttribute("action"), form_data)
             .then(res => {
                 if (res.data.success) {
@@ -31,56 +49,3 @@ const main = () => {
 }
 
 main();
-
-const init_filepond = () => {
-
-    FilePond.registerPlugin(
-        FilePondPluginImagePreview,
-        FilePondPluginImageExifOrientation,
-        FilePondPluginFileValidateSize,
-        FilePondPluginImageEdit,
-        FilePondPluginFileValidateType,
-        FilePondPluginImageResize,
-        FilePondPluginImageCrop,
-    );
-
-    // Select the file input and use 
-    // create() to turn it into a pond
-    FilePond.create(
-        document.querySelector("[name = 'images']"), {
-            // imageEditEditor: FilePond.pintura,
-            allowImageResize: true,
-            allowImageCrop: true,
-            // imageEditInstantEdit: true,
-            imageEditAllowEdit: true,
-            allowImageEdit: true,
-            // imageEditEditor: Doka.create({
-            //     // Doka.js options here ...
-
-            //     cropAspectRatioOptions: [{
-            //             label: 'Free',
-            //             value: null,
-            //         },
-            //         {
-            //             label: 'Portrait',
-            //             value: 1.25,
-            //         },
-            //         {
-            //             label: 'Square',
-            //             value: 1,
-            //         },
-            //         {
-            //             label: 'Landscape',
-            //             value: 0.75,
-            //         },
-            //     ],
-            // }),
-            // createEditor: openEditor,
-        }
-    );
-    FilePond.setOptions({
-        labelIdle: `Kéo & thả tệp của bạn hoặc <span class="filepond--label-action">Click vào để chọn file</span>`
-    });
-      
-}
-init_filepond()

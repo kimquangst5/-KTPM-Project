@@ -13,7 +13,7 @@ export const index = async (req: Request, res: Response) => {
     deleted: false,
   })
     .populate({
-      path: "product_categories images",
+      path: "product_categories images.assets_id",
     })
     .sort({ createdAt: -1 });
     

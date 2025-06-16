@@ -31,7 +31,7 @@ block main
                     tr
                         td #{index + 1}
                         td
-                            img(src=product.images[0] ? product.images[0].secure_url : '', alt="" class="h-[80px]")
+                            img(src=product.images[0] ? product.images[0].assets_id.secure_url : '', alt="" class="h-[80px]")
                         td #{product.name}
                         td #{product.product_categories ? product.product_categories.name : ''}
                         td

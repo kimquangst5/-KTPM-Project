@@ -11,10 +11,11 @@ import Product from "../../models/products.model";
 export const index = async (req: Request, res: Response) => {
   const products = await Product.find({
     deleted: false,
-  }).populate({
-    path: "product_categories images",
-  }).sort({createdAt: -1});
-
+  })
+    .populate({
+      path: "product_categories images.assets_id",
+    })
+    .sort({ createdAt: -1 });
   res.render("admin/pages/products/index.pug", {
     products,
   });
@@ -41,7 +42,12 @@ export const create_post = async (req: Request, res: Response) => {
     const result = await Assets.create(it);
     it._id = new ObjectId(result._id);
   }
-  req.body.images = req.body.images.map((it: any) => new ObjectId(it._id));
+  req.body.images = req.body.images.map((it: any, index: number) => {
+    return {
+      assets_id: new ObjectId(it._id),
+      position: index + 1,
+    };
+  });
   await Product.create(req.body);
   res.cookie(
     "alert",
@@ -59,7 +65,7 @@ export const create_post = async (req: Request, res: Response) => {
 
 export const edit = async (req: Request, res: Response) => {
   const product = await Product.findById(req.params.id).populate({
-    path: "product_categories images",
+    path: "product_categories images.assets_id",
   });
   if (!product) return res.redirect("/admin/products/index");
   const product_categories = await Product_Categories.find({
@@ -74,7 +80,19 @@ export const edit = async (req: Request, res: Response) => {
 };
 
 export const edit_patch = async (req: Request, res: Response) => {
-  delete req.body.images;
+  req.body.product_categories = (req.body.product_categories ? req.body.product_categories : null)
+  let index = 0;
+  let array_data = []
+  for (const it of JSON.parse(req.body.array_data_image)) {
+    if(it.new == true){
+      const new_result = await Assets.create(req.body.images[index]);
+      it["assets_id"] = new_result._id;
+      index++;
+    }
+    array_data.push(it)
+  }
+  req.body.images = array_data;
+  
   await Product.updateOne({
     _id: req.params.id
   }, req.body);

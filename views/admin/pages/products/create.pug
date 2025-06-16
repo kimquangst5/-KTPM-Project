@@ -2,21 +2,11 @@ extends ../../layouts/layout.pug
 include ../../components/create_tree.mixin.pug
 
 block css
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/filepond@4.32.8/dist/filepond.min.css")
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/filepond-plugin-image-preview@4.6.12/dist/filepond-plugin-image-preview.min.css")
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/filepond-plugin-image-edit@1.6.3/dist/filepond-plugin-image-edit.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/file-upload-with-preview@6.1.2/dist/style.min.css")
 
 block script
-    //- script( src="https://cdn.jsdelivr.net/npm/pintura@0.3.10/pintura.min.js") 
-    script(src="https://cdn.jsdelivr.net/npm/filepond@4.32.8/dist/filepond.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-preview@4.6.12/dist/filepond-plugin-image-preview.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-file-validate-size@2.2.8/dist/filepond-plugin-file-validate-size.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-exif-orientation@1.0.11/dist/filepond-plugin-image-exif-orientation.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-edit@1.6.3/dist/filepond-plugin-image-edit.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-file-validate-type@1.2.9/dist/filepond-plugin-file-validate-type.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-resize@2.0.10/dist/filepond-plugin-image-resize.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/filepond-plugin-image-crop@2.0.6/dist/filepond-plugin-image-crop.min.js") 
-    script(type = "module" src="/admin/js/products/create.js")
+    script(src="https://cdn.jsdelivr.net/npm/file-upload-with-preview@6.1.2/dist/index.iife.min.js") 
+    script(src="/admin/js/products/create.js")
 
 block main
     h1(class="w-full text-[20px] font-bold") Thêm sản phẩm
@@ -30,6 +20,5 @@ block main
         sl-select(size = 'small' required name="product_categories" label = 'Danh mục' class="w-full")
             sl-option(value='') ---Lựa chọn---
             +create_tree(tree_categories, null, 0)
-        label(for='images') Ảnh sản phẩm
-        input(id= 'images' multiple type="file" accept = 'image/*' placeholder = 'Ảnh sản phẩm...' name = 'images' class="filepond" data-allow-reorder="true" data-max-file-size="3MB" data-max-files="3")
+        div(id= 'images' data-upload-id="preview-image" multiple type="file" accept = 'image/*' placeholder = 'Ảnh sản phẩm...' name = 'images' class="custom-file-container" data-max-file-size="3MB" data-max-files="3")
 

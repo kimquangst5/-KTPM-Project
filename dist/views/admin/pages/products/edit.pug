@@ -1,7 +1,14 @@
 extends ../../layouts/layout.pug
 include ../../components/create_tree.mixin.pug
+
+block css
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/file-upload-with-preview@6.1.2/dist/style.min.css")
+
 block script
+    script(src="https://cdn.jsdelivr.net/npm/file-upload-with-preview@6.1.2/dist/index.iife.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js") 
     script(src="/admin/js/products/edit.js")
+
 block main
     div(class="flex items-center justify-between mb-[1rem]") 
         h1(class="w-full text-[20px] font-bold") Chỉnh sửa sản phẩm (#{product.name})
@@ -20,13 +27,9 @@ block main
         input(id = 'discount' type="number" placeholder = '% giảm giá...' name = 'discount' value=product.discount  )
         label(for='quantity') Số lượng
         input(id = 'quantity' type="number" placeholder = 'Số lượng...' name = 'quantity' value=product.quantity)
-        select(name="product_categories" class="w-full" )
-            option(value='') ---Lựa chọn---
+        sl-select(name="product_categories" class="w-full" value = product.product_categories ? product.product_categories._id : null)
+            sl-option(value='') ---Lựa chọn---
             +create_tree(tree_categories, null, 0, product.product_categories ? product.product_categories._id : null)
-        label(for='images') Ảnh sản phẩm
-        div(class="flex gap-x-[10px]") 
-            each it in product.images
-                img(src=it.secure_url, alt="" class="h-[80px] w-[80px]")
-        div(class="flex flex-col gap-x-[10px]") 
-            each it in product.images
-                div(alt="" class="") #{it._id}
+        div(data-image = product.images id= 'images' data-upload-id="preview-image" multiple type="file" accept = 'image/*' placeholder = 'Ảnh sản phẩm...' name = 'images' class="custom-file-container" data-max-file-size="3MB" data-max-files="3")
+        
+        

@@ -21,9 +21,11 @@ const products_model_1 = __importDefault(require("../../models/products.model"))
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const products = yield products_model_1.default.find({
         deleted: false,
-    }).populate({
-        path: "product_categories images",
-    }).sort({ createdAt: -1 });
+    })
+        .populate({
+        path: "product_categories images.assets_id",
+    })
+        .sort({ createdAt: -1 });
     res.render("admin/pages/products/index.pug", {
         products,
     });
@@ -50,7 +52,12 @@ const create_post = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const result = yield assets_model_1.default.create(it);
         it._id = new mongodb_1.ObjectId(result._id);
     }
-    req.body.images = req.body.images.map((it) => new mongodb_1.ObjectId(it._id));
+    req.body.images = req.body.images.map((it, index) => {
+        return {
+            assets_id: new mongodb_1.ObjectId(it._id),
+            position: index + 1,
+        };
+    });
     yield products_model_1.default.create(req.body);
     res.cookie("alert", JSON.stringify({
         icon: 'success',
@@ -64,7 +71,7 @@ const create_post = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.create_post = create_post;
 const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield products_model_1.default.findById(req.params.id).populate({
-        path: "product_categories images",
+        path: "product_categories images.assets_id",
     });
     if (!product)
         return res.redirect("/admin/products/index");
@@ -80,7 +87,18 @@ const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.edit = edit;
 const edit_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    delete req.body.images;
+    req.body.product_categories = (req.body.product_categories ? req.body.product_categories : null);
+    let index = 0;
+    let array_data = [];
+    for (const it of JSON.parse(req.body.array_data_image)) {
+        if (it.new == true) {
+            const new_result = yield assets_model_1.default.create(req.body.images[index]);
+            it["assets_id"] = new_result._id;
+            index++;
+        }
+        array_data.push(it);
+    }
+    req.body.images = array_data;
     yield products_model_1.default.updateOne({
         _id: req.params.id
     }, req.body);

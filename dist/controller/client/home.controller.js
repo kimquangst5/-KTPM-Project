@@ -19,7 +19,7 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         deleted: false,
     })
         .populate({
-        path: "product_categories images",
+        path: "product_categories images.assets_id",
     })
         .sort({ createdAt: -1 });
     res.render("client/pages/home/index.pug", {
