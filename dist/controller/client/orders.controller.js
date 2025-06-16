@@ -33,13 +33,14 @@ const add_order = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             quantity: it["quantity"],
         });
     }
-    yield orders_model_1.default.create(req.body);
+    const order = yield orders_model_1.default.create(req.body);
     yield carts_model_1.default.deleteMany({
         user_id: data._id,
     });
     res.json({
         success: true,
         message: "Thêm đơn hàng thành công",
+        order_id: order._id
     });
 });
 exports.add_order = add_order;
@@ -55,7 +56,7 @@ const order_success = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         path: "infor_products.product_id",
         model: "Product",
         populate: {
-            path: "images",
+            path: "images.assets_id",
             model: "Asset",
         },
     })

@@ -46,7 +46,7 @@ export const get_cart = async (req: Request, res: Response) => {
     .populate({
       path: "product_id",
       populate: [
-        { path: "images", model: "Asset" },
+        { path: "images.assets_id", model: "Asset" },
         // đọc trường product_categories
         { path: "product_categories", model: "Product Category" },
       ],

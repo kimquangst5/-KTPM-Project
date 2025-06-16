@@ -21,7 +21,12 @@ const add_order = () => {
             .then(res => {
                 if (res.data.success) {
                     quick_alert('success', res.data.message)
-
+                    setTimeout(() => {
+                        location.href = `/don-hang/${res.data.order_id}`
+                    }, 5000);
+                }
+                else{
+                    quick_alert('warning', res.data.message.join(', '))
                 }
             })
     })

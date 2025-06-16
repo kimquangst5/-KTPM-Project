@@ -32,7 +32,7 @@ block main
                                         td #{index + 1}
                                         td
                                             a(href=`/san-pham/${product.product_id.slug}`)
-                                                img(src=product.product_id.images[0] ? product.product_id.images[0].secure_url : '' alt = product.product_id.name class="h-[80px] w-auto")
+                                                img(src=product.product_id.images[0] ? product.product_id.images[0].assets_id.secure_url : '' alt = product.product_id.name class="h-[80px] w-auto")
                                         td(class="flex w-[200px]")
                                             a(href=`/san-pham/${product.product_id.slug}` class=" text-wrap text-justify") #{product.product_id.name}
                                         td

@@ -13,6 +13,7 @@ import Carts from "../../models/carts.model";
 import Order from "../../models/orders.model";
 
 export const add_order = async (req: Request, res: Response) => {
+
   const token = req.cookies.tokenUser;
   const data = await jwt_verify(token);
   req.body.infor_user.user_id = data._id;
@@ -28,7 +29,7 @@ export const add_order = async (req: Request, res: Response) => {
       quantity: it["quantity"],
     });
   }
-  await Order.create(req.body);
+  const order = await Order.create(req.body);
   await Carts.deleteMany({
     user_id: data._id,
   });
@@ -36,6 +37,7 @@ export const add_order = async (req: Request, res: Response) => {
   res.json({
     success: true,
     message: "Thêm đơn hàng thành công",
+    order_id: order._id
   });
 };
 
@@ -51,7 +53,7 @@ export const order_success = async (req: Request, res: Response) => {
       path: "infor_products.product_id",
       model: "Product",
       populate: {
-        path: "images",
+        path: "images.assets_id",
         model: "Asset",
       },
     })

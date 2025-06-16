@@ -46,7 +46,7 @@ const get_cart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         .populate({
         path: "product_id",
         populate: [
-            { path: "images", model: "Asset" },
+            { path: "images.assets_id", model: "Asset" },
             { path: "product_categories", model: "Product Category" },
         ],
     })
