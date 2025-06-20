@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
+import { ObjectId } from "mongodb";
 import Roles from "../../models/roles.model";
 
 
 export const index = async (req: Request, res: Response) => {
   const roles = await Roles.find({
     deleted: false,
-  });
+  })
+    .populate("created_by")
   res.render("admin/pages/roles/index.pug", {
     roles,
   });
@@ -18,6 +20,7 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const create_post = async (req: Request, res: Response) => {
+  req.body.created_by = new ObjectId(res.locals.INFOR_ADMIN._id);
     await Roles.create(req.body)
 
     res.json({
@@ -30,6 +33,7 @@ export const update = async (req: Request, res: Response) => {
   const role = await Roles.findOne({
     _id: req.params.id
   })
+    .populate("created_by")
   res.render("admin/pages/roles/update.pug", {
     role,
   });
@@ -60,8 +64,10 @@ export const delete_patch = async (req: Request, res: Response) => {
     icon: 'success',
     title: 'Xóa mềm thành công'
   }));
-  const backURL = req.get("referer") || "/admin/roles";
-  res.redirect(backURL);
+  res.json({
+    success: true,
+    message: "Xóa mềm thành công",
+  });
 };
 
 export const trash = async (req: Request, res: Response) => {

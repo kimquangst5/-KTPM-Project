@@ -1,15 +1,14 @@
 extends ../../layouts/layout.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
 
 block script
     script(src="/admin/js/roles/trash.js") 
 
 block main
-    div(class="flex items-center justify-between mb-[1rem]") 
-        h1(class="w-full text-[20px] font-bold") Thùng rác nhóm quyền
-        div(class="flex gap-x-[1rem]")
-            sl-button(href="/admin/roles" variant='primary' size='small' outline) Quay lại danh sách
+    +page_header("Nhóm quyền đã xóa")
+        +btn('Quay lại danh sách', "/admin/roles", 'default', 'arrow-counterclockwise')
     
-
     
     table(class="w-full")
         thead

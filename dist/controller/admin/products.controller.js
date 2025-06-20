@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.delete_soft = exports.edit_patch = exports.edit = exports.create_post = exports.create = exports.index = void 0;
+exports.hard_delete = exports.restore = exports.trash = exports.delete_soft = exports.edit_patch = exports.edit = exports.create_post = exports.create = exports.index = void 0;
 const mongodb_1 = require("mongodb");
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
 const product_categories_model_1 = __importDefault(require("../../models/product_categories.model"));
@@ -134,3 +134,46 @@ const delete_soft = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     });
 });
 exports.delete_soft = delete_soft;
+const trash = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const products = yield products_model_1.default.find({
+        deleted: true,
+    })
+        .populate({
+        path: "product_categories images.assets_id",
+    })
+        .sort({ updatedAt: -1 });
+    res.render("admin/pages/products/trash.pug", {
+        products,
+    });
+});
+exports.trash = trash;
+const restore = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield products_model_1.default.updateOne({
+        _id: req.params.id,
+    }, {
+        deleted: false,
+    });
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Khôi phục thành công",
+    }));
+    res.json({
+        success: true,
+        message: 'Khôi phục thành công!'
+    });
+});
+exports.restore = restore;
+const hard_delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield products_model_1.default.deleteOne({
+        _id: req.params.id
+    });
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Xóa vĩnh viên thành công!",
+    }));
+    res.json({
+        success: true,
+        message: "Xóa vĩnh viên thành công!",
+    });
+});
+exports.hard_delete = hard_delete;

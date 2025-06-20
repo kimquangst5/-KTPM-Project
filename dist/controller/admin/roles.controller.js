@@ -13,11 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.hard_delete = exports.restore = exports.trash = exports.delete_patch = exports.update_patch = exports.update = exports.create_post = exports.create = exports.index = void 0;
+const mongodb_1 = require("mongodb");
 const roles_model_1 = __importDefault(require("../../models/roles.model"));
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const roles = yield roles_model_1.default.find({
         deleted: false,
-    });
+    })
+        .populate("created_by");
     res.render("admin/pages/roles/index.pug", {
         roles,
     });
@@ -28,6 +30,7 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.create = create;
 const create_post = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    req.body.created_by = new mongodb_1.ObjectId(res.locals.INFOR_ADMIN._id);
     yield roles_model_1.default.create(req.body);
     res.json({
         success: true
@@ -37,7 +40,8 @@ exports.create_post = create_post;
 const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = yield roles_model_1.default.findOne({
         _id: req.params.id
-    });
+    })
+        .populate("created_by");
     res.render("admin/pages/roles/update.pug", {
         role,
     });
@@ -67,8 +71,10 @@ const delete_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         icon: 'success',
         title: 'Xóa mềm thành công'
     }));
-    const backURL = req.get("referer") || "/admin/roles";
-    res.redirect(backURL);
+    res.json({
+        success: true,
+        message: "Xóa mềm thành công",
+    });
 });
 exports.delete_patch = delete_patch;
 const trash = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

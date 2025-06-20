@@ -27,7 +27,7 @@ route_admin(app);
 
 
 app.listen(port, () => {
-  console.log(`Website đang chạy trên cổng ${port}`);
+  console.log(`Website đang chạy trên cổng ${port}\nhttp://localhost:${port}`);
 });
 
 

@@ -1,12 +1,24 @@
 extends ../../layouts/layout.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
 
 block script
-    script(src="/admin/js/roles/update.js") 
+    script(src="/admin/js/roles/update.js")
+    
 block main
-    div(class="flex items-center justify-between mb-[1rem]") 
-        h1(class="w-full text-[20px] font-bold") Cập nhật nhóm quyền
-        div(class="flex")
-            sl-button(class="ml-auto  " btn-submit size='small' variant='primary') Cập nhật
+    +page_header("Cập nhật nhóm quyền")
+        +btn('Quay lại danh sách', "/admin/roles", 'default', 'arrow-counterclockwise')
+        +btn('Cập nhật', null, 'primary', 'plus-circle')
+
     form(action=`/admin/roles/cap-nhat/${role._id}` method = 'patch' class="flex flex-col gap-y-[10px]" update-role) 
-        sl-input(type="text" placeholder = 'Tên nhóm quyền...' name = 'name' value = role.name)
-        sl-textarea(placeholder = 'Mô tả...' name = 'description' value = role.description)
+        sl-input(type="text" label = 'Tên nhóm quyền' required placeholder = 'Tên nhóm quyền...' name = 'name' value = role.name size = 'small')
+        sl-textarea(placeholder = 'Mô tả...' label = 'Mô tả nhóm quyền' name = 'description' value = role.description size = 'small')
+        sl-input(placeholder = 'Tác giả' required label = 'Tác giả' value = role.created_by.fullname size = 'small' disabled)
+        div(class="text-[--sl-input-label-color] text-[0.875rem]")
+            span Tạo vào:
+            sl-format-date(hour="numeric" minute="numeric" hour-format="12" date = role.createdAt)
+            sl-format-date(lang="vi" date = role.createdAt)
+        div(class="text-[--sl-input-label-color] text-[0.875rem]")
+            span Cập nhật vào:
+            sl-format-date(hour="numeric" minute="numeric" hour-format="12" date = role.updatedAt)
+            sl-format-date(lang="vi" date = role.updatedAt)

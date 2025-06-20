@@ -17,17 +17,12 @@ block main
             sl-button(btn-submit variant='primary' size='small' ) Cập nhật
     
     form(action=`/admin/products/edit/${product._id}` method = 'patch' class="flex flex-col gap-y-[10px]" update-products)
-        label(for='name') Tên sản phẩm
-        input(id = 'name' type="text" placeholder = 'Tên sản phẩm...' name = 'name' required value=product.name)
-        label(for='description') Mô tả sản phẩm
-        input(id = 'description' type="text" placeholder = 'Mô tả sản phẩm...' name = 'description' value=product.description)
-        label(for='price') Giá trước khi giảm
-        input(id = 'price' type="number"  placeholder = 'Giá trước khi giảm...' name = 'price' value=product.price )
-        label(for='discount') % giảm giá
-        input(id = 'discount' type="number" placeholder = '% giảm giá...' name = 'discount' value=product.discount  )
-        label(for='quantity') Số lượng
-        input(id = 'quantity' type="number" placeholder = 'Số lượng...' name = 'quantity' value=product.quantity)
-        sl-select(name="product_categories" class="w-full" value = product.product_categories ? product.product_categories._id : null)
+        sl-input(size = 'small' label = 'Tên sản phẩm' id = 'name' type="text" placeholder = 'Tên sản phẩm...' name = 'name' required value=product.name)
+        sl-input(size = 'small' label = 'Mô tả sản phẩm' id = 'description' type="text" placeholder = 'Mô tả sản phẩm...' name = 'description' value=product.description)
+        sl-input(required size = 'small' label = 'Giá trước khi giảm' id = 'price' type="number"  placeholder = 'Giá trước khi giảm...' name = 'price' value=product.price )
+        sl-input(required size = 'small' label = '% giảm giá' id = 'discount' type="number" placeholder = '% giảm giá...' name = 'discount' value=product.discount  )
+        sl-input(required size = 'small' label = 'Số lượng' id = 'quantity' type="number" placeholder = 'Số lượng...' name = 'quantity' value=product.quantity)
+        sl-select(required size = 'small' label = 'Danh mục sản phẩm'  name="product_categories" class="w-full" value = product.product_categories ? product.product_categories._id : null)
             sl-option(value='') ---Lựa chọn---
             +create_tree(tree_categories, null, 0, product.product_categories ? product.product_categories._id : null)
         div(data-image = product.images id= 'images' data-upload-id="preview-image" multiple type="file" accept = 'image/*' placeholder = 'Ảnh sản phẩm...' name = 'images' class="custom-file-container" data-max-file-size="3MB" data-max-files="3")

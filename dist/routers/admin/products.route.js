@@ -48,4 +48,7 @@ router.post("/create", upload.array("images", 6), upload_image_middleware_1.uplo
 router.get("/edit/:id", controller.edit);
 router.patch("/edit/:id", upload.array("images", 6), upload_image_middleware_1.upload_multi, controller.edit_patch);
 router.patch("/xoa-mem/:id", controller.delete_soft);
+router.get("/thung-rac", controller.trash);
+router.patch("/khoi-phuc/:id", controller.restore);
+router.delete("/xoa-cung/:id", controller.hard_delete);
 exports.default = router;

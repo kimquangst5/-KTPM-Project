@@ -1,32 +1,32 @@
 extends ../../layouts/layout.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
 
 block script
     script(src="/admin/js/roles/index.js") 
 
 block main
-    div(class="flex items-center justify-between mb-[1rem]") 
-        h1(class="w-full text-[20px] font-bold") Danh sách nhóm quyền
-        div(class="flex gap-x-[1rem]")
-            sl-button(href="/admin/roles/thung-rac" variant='primary' size='small' outline) Thùng rác
-            sl-button(href="/admin/roles/create" variant='primary' size='small' ) Thêm mới
+    +page_header("Danh sách nhóm quyền")
+        +btn('Thùng rác', "/admin/roles/thung-rac", 'neutral', 'trash')
+        +btn('Thêm mới', "/admin/roles/create", 'primary', 'plus-circle')
     
-    table(class="w-full")
+    table(class="table-auto w-full text-[#192335]")
         thead
             tr
-                th STT
-                th Vai trò
-                th Mô tả
-                th Thêm bởi
-                th Hành động
+                th(class="w-0 px-2 py-1") STT
+                th(class="w-1/5 px-2 py-1") Vai trò
+                th(class="w-1/3 px-2 py-1") Mô tả
+                th(class="w-1/5 px-2 py-1") Thêm bởi
+                th(class="w-fit px-2 py-1") Hành động
         tbody
             - if(roles && roles.length > 0)
                 each it, index in roles
                     tr
-                        td #{index + 1}
-                        td #{it.name}
-                        td #{it.description}
-                        td 
-                        td
+                        td(class="min-w-min px-2 py-1 text-center") #{index + 1}
+                        td(class="w-1/5 px-2 py-1") #{it.name}
+                        td(class="w-1/3 px-2 py-1") #{it.description}
+                        td(class="w-1/5 px-2 py-1 text-center") #{it.created_by ? it.created_by.fullname : ''}
+                        td(class="w-0 px-2 py-1")
                             div(class="flex items-center justify-center gap-x-[10px]")
                                 sl-button(href = `/admin/roles/cap-nhat/${it._id}` size="small" variant="primary" outline pill) Sửa 
                                 sl-button(soft-delete = `/admin/roles/xoa-mem/${it._id}` size="small" variant="danger" outline pill) Xóa  

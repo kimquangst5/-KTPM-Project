@@ -15,8 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login_patch_validate = void 0;
 const bcrypt_helper_1 = require("../../helpers/bcrypt.helper");
 const admin_accounts_model_1 = __importDefault(require("../../models/admin_accounts.model"));
+const status_const_1 = require("../../constants/status.const");
 const login_patch_validate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { account, password, } = req.body;
+    const { account, password } = req.body;
     const data_error = {
         success: false,
         icon: "error",
@@ -40,6 +41,10 @@ const login_patch_validate = (req, res, next) => __awaiter(void 0, void 0, void 
         if (!check_account)
             data_error.message.push("Tài khoản hoặc mật khẩu không hợp lệ!");
         else {
+            if (check_account.deleted == true)
+                data_error.message.push("Tài khoản của bạn đã bị xóa!");
+            if (check_account.status == status_const_1.accounts_const.INACTIVE)
+                data_error.message.push("Tài khoản của bạn đã tạm khóa!");
             const check_password = yield (0, bcrypt_helper_1.bcrypt_compare)(password, check_account.password);
             if (check_password == false)
                 data_error.message.push("Tài khoản hoặc mật khẩu không hợp lệ!");

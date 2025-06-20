@@ -24,11 +24,14 @@ router.get(
   controller.update
 );
 
-router.patch("/cap-nhat/:id", controller.update_patch);
+router.patch("/cap-nhat/:id", upload.single("avatar"), controller.update_patch);
 
+router.patch("/xoa-mem/:id", controller.delete_patch);
 
+router.get("/thung-rac", controller.trash);
 
+router.patch("/khoi-phuc/:id", controller.restore);
 
-
+router.delete("/xoa-cung/:id", controller.hard_delete);
 
 export default router;

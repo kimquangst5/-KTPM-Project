@@ -8,7 +8,7 @@ const init_preview_image = () => {
     });
 }
 
-init_preview_image()
+
 
 const init_sortable = () => {
     const item = document.querySelector('.image-preview')
@@ -16,10 +16,10 @@ const init_sortable = () => {
         animation: 450,
         ghostClass: 'blue-background-class'
     });
-    
+
 }
 
-init_sortable()
+
 
 const main = () => {
     const form = document.querySelector('form[update-products]');
@@ -35,14 +35,14 @@ const main = () => {
         let array_data_image = []
         let pos = 1;
         for await (const it of list_img) {
-            
+
             let data = {
                 position: pos
             }
-            
+
             if (it.getAttribute('assets_id')) {
                 data.assets_id = it.getAttribute('assets_id'),
-                data.new = false
+                    data.new = false
             } else {
                 data.new = true
                 const file = upload.cachedFileArray.find(file => file.name == it.getAttribute('data-upload-name'))
@@ -53,7 +53,7 @@ const main = () => {
             pos++;
         }
         console.log(array_data_image);
-        
+
         form_data.append('name', form.querySelector("[name = 'name' ]").value);
         form_data.append('description', form.querySelector("[name = 'description' ]").value);
         form_data.append('price', form.querySelector("[name = 'price' ]").value);
@@ -71,17 +71,18 @@ const main = () => {
 
 }
 
-main();
+
 
 const add_image = async () => {
     const data_image = document.querySelector('[data-image]');
     const data = JSON.parse(data_image.getAttribute('data-image')).sort((a, b) => a.position - b.position)
+    
     let array_url_img = data.map(it => it.assets_id.secure_url);
     async function addSequentially(urls) {
         for (const url of urls) {
             upload.addImagesFromPath([url]);
             // đợi đến khi ảnh được render trước khi thêm ảnh tiếp theo
-            await new Promise(r => setTimeout(r, 1000));
+            await new Promise(r => setTimeout(r, 500));
         }
     }
     await addSequentially(array_url_img);
@@ -94,7 +95,13 @@ const add_image = async () => {
             it.setAttribute("assets_id", data[index].assets_id._id)
             index++;
         }
-    }, 2000);
+    }, 500);
 }
 
-add_image()
+init_preview_image();
+const ok = async () => {
+    await add_image();
+    init_sortable()
+}
+ok()
+main();

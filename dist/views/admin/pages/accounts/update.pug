@@ -1,12 +1,17 @@
 extends ../../layouts/layout.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
 
 block script
-    script(src="/admin/js/accounts/update.js") 
+    script(src="/admin/js/accounts/update.js")
+
 block main
-    h1(class="w-full text-[20px] font-bold") Cập nhật tài khoản
-    button(class="ml-auto block " btn-submit) Cập nhật
+    +page_header("Cập nhật tài khoản")
+        +btn('Quay lại danh sách', "/admin/accounts/index", 'default', 'arrow-counterclockwise')
+        +btn('Cập nhật', null, 'primary', 'plus-circle', `/admin/accounts/cap-nhat/${account._id}`)
+    
     form(action=`/admin/accounts/cap-nhat/${account._id}` method = 'post' class="flex flex-col gap-y-[10px]" update-account) 
-        sl-input(label="Tên đăng nhập" size='small' type="text" placeholder = 'Tên đăng nhập...' name = 'username' value = account.username || '')
+        sl-input(label="Tên đăng nhập" size='small' type="text" placeholder = 'Tên đăng nhập...' name = 'username' value = account.username || '' required)
         sl-select(label="Vai trò" size='small' name = 'role_id' value = account.role_id ? account.role_id._id : '')
             sl-option(value='') ---Lựa chọn---
             each role in roles
@@ -14,4 +19,4 @@ block main
         div(class="")
             img(src=account.avatar ? account.avatar.secure_url : '', alt="" class="max-h-[60px]")
         sl-input(label="Họ và tên" size='small' type="text" placeholder = 'Họ và tên...' name = 'fullname' value = account.fullname || '')
-        sl-input(label="Ngày sinh" size='small' type="date" placeholder = 'Ngày sinh...' name = 'birthday')
+        sl-input(label="Ngày sinh" size='small' type="date" placeholder = 'Ngày sinh...' name = 'birthday' value = account.birthday_new ? account.birthday_new : "")

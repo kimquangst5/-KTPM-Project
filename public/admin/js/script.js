@@ -75,3 +75,32 @@ if (get_cookie('alert')) {
     quick_alert(alert_data.icon, alert_data.title);
     delete_cookie('alert')
 }
+
+const confirm_alert = (title, text, func) => {
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ok",
+        cancelButtonText: "Hủy",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            func()
+        }
+    });
+}
+
+
+const btn_submit = () => {
+    const btn = document.querySelector("[btn-submit]");
+    if (!btn) return;
+    window.addEventListener("keydown", (e) => {
+        if (e.key === 'F1' || e.keyCode === 112) {
+            e.preventDefault();
+            btn.click();
+        }
+    })
+}

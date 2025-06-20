@@ -1,0 +1,3 @@
+mixin btn(title, link = null, variant = 'primary', icon = icon, status)
+    sl-button(href=link variant=variant size='small' pill btn-submit = (status ? status : null)) #{title}
+        sl-icon(name=icon slot="prefix")

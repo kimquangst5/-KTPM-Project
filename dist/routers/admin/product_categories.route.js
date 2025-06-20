@@ -45,4 +45,8 @@ const router = express_1.default.Router();
 router.get("/index", controller.index);
 router.get("/create", controller.create);
 router.post("/create", upload.single("avatar"), upload_image_middleware_1.upload_single, controller.create_post);
+router.patch("/xoa-mem/:id", controller.delete_patch);
+router.get("/thung-rac", controller.trash);
+router.patch("/khoi-phuc/:id", controller.restore);
+router.delete("/xoa-cung/:id", controller.hard_delete);
 exports.default = router;

@@ -137,3 +137,57 @@ export const delete_soft = async (req: Request, res: Response) => {
     message: "Xóa (mềm) sản phẩm thành công!"
   })
 };
+
+
+
+export const trash = async (req: Request, res: Response) => {
+  const products = await Product.find({
+    deleted: true,
+  })
+    .populate({
+      path: "product_categories images.assets_id",
+    })
+    .sort({ updatedAt: -1 });
+  res.render("admin/pages/products/trash.pug", {
+    products,
+  });
+}
+
+export const restore = async (req: Request, res: Response) => {
+  await Product.updateOne(
+    {
+      _id: req.params.id,
+    },
+    {
+      deleted: false,
+    }
+  );
+  res.cookie(
+    "alert",
+    JSON.stringify({
+      icon: "success",
+      title: "Khôi phục thành công",
+    })
+  );
+  res.json({
+    success: true,
+    message: 'Khôi phục thành công!'
+  })
+}
+
+export const hard_delete = async (req: Request, res: Response) => {
+  await Product.deleteOne({
+    _id: req.params.id
+  });
+  res.cookie(
+    "alert",
+    JSON.stringify({
+      icon: "success",
+      title: "Xóa vĩnh viên thành công!",
+    })
+  );
+  res.json({
+    success: true,
+    message: "Xóa vĩnh viên thành công!",
+  });
+}

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_login_admin = void 0;
 const jwt_helpers_1 = require("../../helpers/jwt.helpers");
 const admin_accounts_model_1 = __importDefault(require("../../models/admin_accounts.model"));
+const status_const_1 = require("../../constants/status.const");
 const check_login_admin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.cookies.token;
     try {
@@ -32,6 +33,8 @@ const check_login_admin = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                     _id: data._id,
                     email: data.email,
                     username: data.username,
+                    deleted: false,
+                    status: status_const_1.accounts_const.ACTIVE
                 }).select("-password -__v -createdAt -updatedAt");
                 if (token != user["token"]) {
                     res.clearCookie("token");

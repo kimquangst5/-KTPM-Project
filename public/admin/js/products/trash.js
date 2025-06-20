@@ -1,9 +1,9 @@
 const restore = () => {
     const list_btn = document.querySelectorAll("sl-button[action]");
-    if(!list_btn || list_btn.length <= 0) return;
+    if (!list_btn || list_btn.length <= 0) return;
     list_btn.forEach(btn => {
         btn.addEventListener('click', () => {
-            confirm_alert("Khôi phục nhóm quyền!", "Bạn có chắc muốn khôi phục nhóm quyền này?", () => {
+            confirm_alert("Khôi phục sản phẩm!", "Bạn có chắc muốn khôi phục sản phẩm này?", () => {
                 axios.patch(btn.getAttribute('action'))
                     .then(res => {
                         if (res.data.success) {
@@ -20,7 +20,7 @@ const hard_delete = () => {
     if (!list_btn || list_btn.length <= 0) return;
     list_btn.forEach(btn => {
         btn.addEventListener('click', () => {
-            confirm_alert("Xóa nhóm quyền!", "Bạn có chắc muốn xóa nhóm quyền này?. Hành động này không thể khôi phục!", () => {
+            confirm_alert("Xóa sản phẩm!", "Bạn có chắc muốn xóa sản phẩm này?. Hành động này không thể khôi phục!", () => {
                 axios.delete(btn.getAttribute('delete'))
                     .then(res => {
                         if (res.data.success) {
@@ -28,7 +28,7 @@ const hard_delete = () => {
                         }
                     })
             })
-            
+
         })
     });
 }

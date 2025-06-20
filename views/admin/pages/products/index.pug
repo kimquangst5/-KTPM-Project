@@ -1,18 +1,14 @@
 extends ../../layouts/layout.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
 
 block script
     script(src="/admin/js/products/index.js") 
 
 block main
-    div(class="flex items-center justify-between mb-[1rem]") 
-        h1(class="w-full text-[20px] font-bold") Danh sách sản phẩm
-        div(class="flex gap-x-[1rem]")
-            //- sl-button(href="/admin/products/thung-rac" variant='primary' size='small' outline) Thùng rác
-            sl-button(href="/admin/products/create" variant='primary' size='small' ) Thêm mới
-    
-
-
-
+    +page_header("Danh sách sản phẩm")
+        +btn('Thùng rác', "/admin/products/thung-rac", 'neutral', 'trash')
+        +btn('Thêm mới', "/admin/products/create", 'primary', 'plus-circle')
     
     table(class="w-full")
         thead

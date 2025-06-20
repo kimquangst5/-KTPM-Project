@@ -3,12 +3,15 @@ const soft_delete = () => {
     if (!list_btn || list_btn.length <= 0) return;
     list_btn.forEach(btn => {
         btn.addEventListener('click', () => {
-            axios.patch(btn.getAttribute('soft-delete'))
+            confirm_alert("Xóa nhóm quyền!", "Bạn có chắc muốn xóa nhóm quyền này?", () => {
+                axios.patch(btn.getAttribute('soft-delete'))
                 .then(res => {
                     if (res.data.success) {
                         location.reload();
                     }
                 })
+            })
+            
         })
     });
 }

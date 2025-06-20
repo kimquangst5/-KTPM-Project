@@ -1,10 +1,14 @@
 extends ../../layouts/layout.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
 
 block script
     script(src="/admin/js/accounts/create.js") 
 block main
-    h1(class="w-full text-[20px] font-bold") Trang thêm tài khoản quản trị
-    button(class="ml-auto block " btn-submit) Thêm mới
+    +page_header("Thêm tài khoản quản trị")
+        +btn('Quay lại danh sách', "/admin/accounts/index", 'default', 'arrow-counterclockwise')
+        +btn('Thêm mới', null, 'primary', 'plus-circle', "/admin/accounts/create")
+    
     form(action="/admin/accounts/create" method = 'post' class="" new-account autocomplete="off")
         div(class="grid grid-cols-2 items-center gap-x-4")
             div(class="flex flex-col gap-y-[10px]")

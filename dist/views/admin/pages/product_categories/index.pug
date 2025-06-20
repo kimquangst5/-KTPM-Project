@@ -1,9 +1,14 @@
 extends ../../layouts/layout.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
+
+block script
+    script(src="/admin/js/product_categories/index.js") 
 
 block main
-    h1(class="w-full text-[20px] font-bold") Danh sách danh mục
-    button 
-        a(href="/admin/roles/create") Thêm mới
+    +page_header("Danh sách danh mục")
+        +btn('Thùng rác', "/admin/product_categories/thung-rac", 'neutral', 'trash')
+        +btn('Thêm mới', "/admin/product_categories/create", 'primary', 'plus-circle')
     
     table(class="w-full")
         thead
@@ -13,6 +18,7 @@ block main
                 th Tên danh mục
                 th Mô tả
                 th Danh mục cha
+                th Hành động
         tbody
             - if(categories && categories.length > 0)
                 each it, index in categories
@@ -23,3 +29,7 @@ block main
                         td #{it.name}
                         td #{it.description}
                         td #{it.parent_id ? it.parent_id.name : "Không có"}
+                        td(class="w-0 px-2 py-1")
+                            div(class="flex items-center justify-center gap-x-[10px]")
+                                sl-button(href = `/admin/product_categories/cap-nhat/${it._id}` size="small" variant="primary" outline pill) Sửa 
+                                sl-button(soft-delete = `/admin/product_categories/xoa-mem/${it._id}` size="small" variant="danger" outline pill) Xóa  

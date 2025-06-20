@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update_patch = exports.update = exports.create_post = exports.create = exports.index = exports.login = void 0;
+exports.hard_delete = exports.restore = exports.trash = exports.delete_patch = exports.update_patch = exports.update = exports.create_post = exports.create = exports.index = exports.login = void 0;
 const mongodb_1 = require("mongodb");
 const roles_model_1 = __importDefault(require("../../models/roles.model"));
 const admin_accounts_model_1 = __importDefault(require("../../models/admin_accounts.model"));
@@ -80,6 +80,8 @@ const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         _id: req.params.id,
         deleted: false,
     }).populate("avatar role_id");
+    account["birthday_new"] = (account.birthday ? yield (0, format_date_helper_1.format_date)(account.birthday) : "");
+    console.log(account["birthday_new"]);
     const roles = yield roles_model_1.default.find({
         deleted: false
     });
@@ -91,6 +93,7 @@ const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.update = update;
 const update_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     req.body.birthday = req.body.birthday ? (0, format_date_helper_1.parse_date)(req.body.birthday) : null;
+    req.body.role_id = req.body.role_id ? new mongodb_1.ObjectId(req.body.role_id) : null;
     yield admin_accounts_model_1.default.updateOne({
         _id: req.params.id
     }, req.body);
@@ -103,3 +106,60 @@ const update_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     });
 });
 exports.update_patch = update_patch;
+const delete_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield admin_accounts_model_1.default.updateOne({
+        _id: req.params.id
+    }, {
+        deleted: true
+    });
+    res.cookie('alert', JSON.stringify({
+        icon: 'success',
+        title: 'Xóa mềm thành công'
+    }));
+    res.json({
+        success: true,
+        message: "Xóa mềm thành công",
+    });
+});
+exports.delete_patch = delete_patch;
+const trash = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const accounts = yield admin_accounts_model_1.default.find({
+        deleted: true,
+    }).populate({
+        path: "role_id avatar",
+    });
+    res.render("admin/pages/accounts/trash.pug", {
+        accounts,
+    });
+});
+exports.trash = trash;
+const restore = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield admin_accounts_model_1.default.updateOne({
+        _id: req.params.id,
+    }, {
+        deleted: false,
+    });
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Khôi phục thành công",
+    }));
+    res.json({
+        success: true,
+        message: 'Khôi phục thành công!'
+    });
+});
+exports.restore = restore;
+const hard_delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield admin_accounts_model_1.default.deleteOne({
+        _id: req.params.id,
+    });
+    res.cookie("alert", JSON.stringify({
+        icon: "success",
+        title: "Xóa vĩnh viên thành công!",
+    }));
+    res.json({
+        success: true,
+        message: "Xóa vĩnh viên thành công!",
+    });
+});
+exports.hard_delete = hard_delete;

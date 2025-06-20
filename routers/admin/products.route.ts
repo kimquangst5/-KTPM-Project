@@ -35,4 +35,11 @@ router.patch(
 );
 
 
+router.get("/thung-rac", controller.trash);
+
+router.patch("/khoi-phuc/:id", controller.restore);
+
+router.delete("/xoa-cung/:id", controller.hard_delete);
+
+
 export default router;

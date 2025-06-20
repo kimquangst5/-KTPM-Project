@@ -22,5 +22,5 @@ app.use((0, cookie_parser_1.default)());
 (0, index_route_2.default)(app);
 (0, index_route_1.default)(app);
 app.listen(port, () => {
-    console.log(`Website đang chạy trên cổng ${port}`);
+    console.log(`Website đang chạy trên cổng ${port}\nhttp://localhost:${port}`);
 });

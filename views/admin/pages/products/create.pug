@@ -1,5 +1,7 @@
 extends ../../layouts/layout.pug
 include ../../components/create_tree.mixin.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
 
 block css
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/file-upload-with-preview@6.1.2/dist/style.min.css")
@@ -9,8 +11,10 @@ block script
     script(src="/admin/js/products/create.js")
 
 block main
-    h1(class="w-full text-[20px] font-bold") Thêm sản phẩm
-    button(class="ml-auto block " btn-submit) Thêm mới
+    +page_header("Thêm sản phẩm")
+        +btn('Quay lại danh sách', "/admin/products/index", 'default', 'arrow-counterclockwise')
+        +btn('Thêm mới', null, 'primary', 'plus-circle', "/admin/products/create")
+    
     form(action="/admin/products/create" method = 'post' class="flex flex-col gap-y-[10px]" new-products)
         sl-input(size = 'small' label = 'Tên sản phẩm' id = 'name' type="text" placeholder = 'Tên sản phẩm...' name = 'name' required)
         sl-input(size = 'small' required label = 'Mô tả sản phẩm' id = 'description' type="text" placeholder = 'Mô tả sản phẩm...' name = 'description')

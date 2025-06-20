@@ -1,15 +1,20 @@
 extends ../../layouts/layout.pug
 include ../../components/create_tree.mixin.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
+
 block script
     script(src="/admin/js/product_categories/create.js") 
 block main
-    h1(class="w-full text-[20px] font-bold") Thêm danh mục sản phẩm
-    button(class="ml-auto block " btn-submit) Thêm mới
+    +page_header("Thêm danh mục")
+        +btn('Quay lại danh sách', "/admin/product_categories/index", 'default', 'arrow-counterclockwise')
+        +btn('Thêm mới', null, 'primary', 'plus-circle', "/admin/product_categories/create")
+    
     form(action="/admin/product_categories/create" method = 'post' class="flex flex-col gap-y-[10px]" new-categories) 
-        input(type="text" placeholder = 'Tên danh mục...' name = 'name')
-        input(type="text" placeholder = 'Mô tả danh mục...' name = 'description')
-        select(name="parent_id" class="w-full")
-            option(value='') ---Lựa chọn---
+        sl-input(size = 'small' label = "Tên danh mục" type="text" placeholder = 'Tên danh mục...' name = 'name')
+        sl-textarea(size = 'small' label = "Mô tả" type="text" placeholder = 'Mô tả danh mục...' name = 'description')
+        sl-select(label = "Danh mục cha" size = 'small' name="parent_id" class="w-full")
+            sl-option(value='') ---Lựa chọn---
             +create_tree(tree_categories, null, 0)
         label(for='avatar') Ảnh đại diện
         input(id= 'avatar' type="file" accept = 'image/*' placeholder = 'Avatar...' name = 'avatar')

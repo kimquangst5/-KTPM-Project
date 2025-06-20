@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import UserAccount from "../../models/user_accounts.model";
 import { jwt_verify } from "../../helpers/jwt.helpers";
 import Account from "../../models/admin_accounts.model";
+import { accounts_const } from "../../constants/status.const";
 
 export const check_login_admin = async (
   req: Request,
@@ -27,6 +28,8 @@ export const check_login_admin = async (
           _id: data._id,
           email: data.email,
           username: data.username,
+          deleted: false,
+          status: accounts_const.ACTIVE
         }).select("-password -__v -createdAt -updatedAt");
         
         if (token != user["token"]) {

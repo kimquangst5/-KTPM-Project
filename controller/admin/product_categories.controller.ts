@@ -42,3 +42,70 @@ export const create_post = async (req: Request, res: Response) => {
     success: true,
   });
 };
+
+export const delete_patch = async (req: Request, res: Response) => {
+  await Product_Categories.updateOne(
+    {
+      _id: req.params.id,
+    },
+    {
+      deleted: true,
+    }
+  );
+  res.cookie('alert', JSON.stringify({
+    icon: 'success',
+    title: 'Xóa mềm thành công'
+  }));
+  res.json({
+    success: true,
+    message: "Xóa mềm thành công",
+  });
+};
+
+export const trash = async (req: Request, res: Response) => {
+  const roles = await Product_Categories.find({
+    deleted: true,
+  });
+  res.render("admin/pages/product_categories/trash.pug", {
+    roles,
+  });
+}
+
+export const restore = async (req: Request, res: Response) => {
+  await Product_Categories.updateOne(
+    {
+      _id: req.params.id,
+    },
+    {
+      deleted: false,
+    }
+  );
+  res.cookie(
+    "alert",
+    JSON.stringify({
+      icon: "success",
+      title: "Khôi phục thành công",
+    })
+  );
+  res.json({
+    success: true,
+    message: 'Khôi phục thành công!'
+  })
+}
+
+export const hard_delete = async (req: Request, res: Response) => {
+  await Product_Categories.deleteOne({
+    _id: req.params.id
+  });
+  res.cookie(
+    "alert",
+    JSON.stringify({
+      icon: "success",
+      title: "Xóa vĩnh viên thành công!",
+    })
+  );
+  res.json({
+    success: true,
+    message: "Xóa vĩnh viên thành công!",
+  });
+}
