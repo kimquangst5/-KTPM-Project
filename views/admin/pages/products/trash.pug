@@ -19,6 +19,7 @@ block main
                 th Giá
                 th % giảm giá
                 th Số lượng
+                th Xóa bởi
                 th Hành động
         tbody
             - if(products && products.length > 0)
@@ -32,6 +33,8 @@ block main
                             sl-format-number(type="currency" currency="VND" value=product.price lang="vi" class="text-secondary")
                         td(class="text-center") #{product.discount}
                         td(class="text-center") #{product.quantity}
+                        td(class="text-center")
+                            a(href="") #{product.deleted_by ? product.deleted_by.fullname : ""}
                         td(class="w-1 px-[10px]")
                             div(class="flex items-center justify-center gap-x-[10px]")
                                 sl-button(action = `/admin/products/khoi-phuc/${product._id}` size="small" variant="primary" outline pill) Khôi phục 

@@ -81,7 +81,6 @@ const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         deleted: false,
     }).populate("avatar role_id");
     account["birthday_new"] = (account.birthday ? yield (0, format_date_helper_1.format_date)(account.birthday) : "");
-    console.log(account["birthday_new"]);
     const roles = yield roles_model_1.default.find({
         deleted: false
     });

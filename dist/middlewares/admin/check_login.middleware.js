@@ -46,6 +46,7 @@ const check_login_admin = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                     return;
                 }
                 res.locals.INFOR_ADMIN = user;
+                res.locals.LOCATION_HREF = req.originalUrl;
                 next();
             }
         }

@@ -21,7 +21,7 @@ const products_schema = new Schema(
           ref: "Asset",
           default: null,
         },
-        position: Number
+        position: Number,
       },
     ],
     slug: {
@@ -42,6 +42,19 @@ const products_schema = new Schema(
       type: Number,
       default: products_const.ACTIVE,
     },
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin Account",
+    },
+    updated_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin Account",
+    },
+    deleted_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin Account",
+    },
+    featured: Boolean
   },
   {
     timestamps: true,

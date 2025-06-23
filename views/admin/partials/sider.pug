@@ -1,17 +1,39 @@
-ul(class="w-[300px] bg-[#515151] text-[white] h-[100vh] overflow-y-auto p-[2rem]")
-    li
-        a(href="/admin/roles") DS nhóm quyền
-    li
-        a(href="/admin/roles/create") Thêm nhóm quyền
-    li
-        a(href="/admin/accounts/index") DS tài khoản quản trị
-    li
-        a(href="/admin/accounts/create") Thêm tài khoản quản trị
-    li
-        a(href="/admin/product_categories/create") Thêm danh mục sản phẩm
-    li
-        a(href="/admin/product_categories/index") DS danh mục sản phẩm
-    li
-        a(href="/admin/products/create") Thêm sản phẩm
-    li
-        a(href="/admin/products/index") DS sản phẩm
+include ../components/tree.pug
+
+
+div(class="w-[300px] h-[100vh] overflow-y-auto py-[2rem] sl-theme-dark")
+    //- li
+    //-     a(href="/admin/roles") DS nhóm quyền
+    //- li
+    //-     a(href="/admin/roles/create") Thêm nhóm quyền
+    //- li
+    //-     a(href="/admin/accounts/index") DS tài khoản quản trị
+    //- li
+    //-     a(href="/admin/accounts/create") Thêm tài khoản quản trị
+    //- li
+    //-     a(href="/admin/product_categories/create") Thêm danh mục sản phẩm
+    //- li
+    //-     a(href="/admin/product_categories/index") DS danh mục sản phẩm
+    //- li
+    //-     a(href="/admin/products/create") Thêm sản phẩm
+    //- li
+    //-     a(href="/admin/products/index") DS sản phẩm
+    //- - const ok = () => location.href;
+    sl-tree()
+        +tree("person-lock", "Nhóm quyền", null, LOCATION_HREF.startsWith('/admin/roles'))
+            +tree("plus", "Thêm mới", "/admin/roles/create")
+            +tree("list", "Danh sách", "/admin/roles")
+        +tree("image", "Media", null, LOCATION_HREF.startsWith('/admin/media'))
+            +tree("image", "Hình ảnh", "/admin/media/image")
+            +tree("play-circle", "Video", "/admin/media/video")
+        +tree("box", "Sản phẩm", null, LOCATION_HREF.startsWith('/admin/products'))
+            +tree("plus", "Thêm mới", "/admin/products/create")
+            +tree("list", "Danh sách", "/admin/products/index")
+        +tree("grid-1x2", "Danh mục", null, LOCATION_HREF.startsWith('/admin/product_categories'))
+            +tree("plus", "Thêm mới", "/admin/product_categories/create")
+            +tree("list", "Danh sách", "/admin/product_categories/index")
+        +tree("person-check", "Tài khoản", null, LOCATION_HREF.startsWith('/admin/accounts'))
+            +tree("person-check", "Thêm mới", "/admin/accounts/create")
+            +tree("people", "Danh sách", "/admin/accounts/index")
+
+

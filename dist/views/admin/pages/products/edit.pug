@@ -1,5 +1,7 @@
 extends ../../layouts/layout.pug
 include ../../components/create_tree.mixin.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
 
 block css
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/file-upload-with-preview@6.1.2/dist/style.min.css")
@@ -10,12 +12,49 @@ block script
     script(src="/admin/js/products/edit.js")
 
 block main
-    div(class="flex items-center justify-between mb-[1rem]") 
-        h1(class="w-full text-[20px] font-bold") Chỉnh sửa sản phẩm (#{product.name})
-        div(class="flex gap-x-[1rem]")
-            sl-button(href="/admin/products/index" variant='primary' size='small' outline) Quay lại danh sách
-            sl-button(btn-submit variant='primary' size='small' ) Cập nhật
-    
+    +page_header("Chỉnh sửa sản phẩm")
+        +btn('Quay lại danh sách', "/admin/products/index", 'default', 'arrow-counterclockwise')
+
+        +btn('Cập nhật', null, 'primary', 'plus-circle', `/admin/products/edit/${product._id}`)
+    sl-details(summary="Thông tin chung" open)
+        div(class="grid grid-cols-2 gap-5")
+            div(class="grid grid-cols-2")  
+                div(class="") Chủ nhân:
+                div(class="") #{product.created_by ? product.created_by.fullname : ""}
+            div(class="grid grid-cols-2")  
+                div(class="") Tạo vào:
+                div(class="flex items-center gap-x-2") 
+                    sl-format-date(hour="numeric" minute="numeric" hour-format="24" date = product.createdAt)
+                    sl-format-date(lang="vi" date = product.createdAt)
+                    p ~
+                    sl-relative-time(sync date=product.createdAt lang="vi")
+            div(class="grid grid-cols-2")  
+                div(class="") Người cập nhật gần nhất:
+                div(class="") #{product.updated_by ? product.updated_by.fullname : ""}
+            div(class="grid grid-cols-2")  
+                div(class="") Cập nhật vào:
+                div(class="flex items-center gap-x-2") 
+                    sl-format-date(hour="numeric" minute="numeric" hour-format="24" date = product.updatedAt)
+                    sl-format-date(lang="vi" date = product.updatedAt)
+                    p ~
+                    sl-relative-time(sync date=product.updatedAt lang="vi")
+            div(class="grid grid-cols-2")  
+                div(class="") Trạng thái:
+                - if(product.status == 0)
+                    sl-badge(variant="success" pill size="small") Hoạt động
+                - else if(product.status == 1)
+                    sl-badge(variant="neutral" pill size="small") Tạm ngưng
+            div(class="grid grid-cols-2")  
+                div(class="") SEO:
+                sl-badge(variant="danger" pill size="small") Chưa đạt
+            div(class="grid grid-cols-2")  
+                div(class="") Từ khóa:
+                sl-badge(variant="danger" pill size="small") Chưa đạt
+            iv(class="grid grid-cols-2")  
+                div(class="") Ngôn ngữ hiện tại:
+                sl-badge(variant="success" pill size="small") Tiếng việt
+            
+
     form(action=`/admin/products/edit/${product._id}` method = 'patch' class="flex flex-col gap-y-[10px]" update-products)
         sl-input(size = 'small' label = 'Tên sản phẩm' id = 'name' type="text" placeholder = 'Tên sản phẩm...' name = 'name' required value=product.name)
         sl-input(size = 'small' label = 'Mô tả sản phẩm' id = 'description' type="text" placeholder = 'Mô tả sản phẩm...' name = 'description' value=product.description)
@@ -26,5 +65,11 @@ block main
             sl-option(value='') ---Lựa chọn---
             +create_tree(tree_categories, null, 0, product.product_categories ? product.product_categories._id : null)
         div(data-image = product.images id= 'images' data-upload-id="preview-image" multiple type="file" accept = 'image/*' placeholder = 'Ảnh sản phẩm...' name = 'images' class="custom-file-container" data-max-file-size="3MB" data-max-files="3")
-        
-        
+        div(class="grid grid-cols-2") 
+            sl-radio-group(label="Trạng thái", name="status", value=product.status required)
+                sl-radio-button(value="0") Kinh doanh
+                sl-radio-button(value="1") Tạm dừng
+            sl-radio-group(label="Sản phẩm nổi bật", name="featured", value=product.featured ? product.featured.toString() : 'false' required help-text="Sản phẩm nổi bật sẽ hiển thị trong phần Sản Phẩm Nổi Bật ở trang chủ." )
+                sl-radio-button(value="true") Có
+                sl-radio-button(value="false") Không
+                

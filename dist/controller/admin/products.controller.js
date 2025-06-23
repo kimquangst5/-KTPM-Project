@@ -18,12 +18,13 @@ const assets_model_1 = __importDefault(require("../../models/assets.model"));
 const product_categories_model_1 = __importDefault(require("../../models/product_categories.model"));
 const create_tree_helper_1 = __importDefault(require("../../helpers/create_tree.helper"));
 const products_model_1 = __importDefault(require("../../models/products.model"));
+const cloudinary_helper_1 = require("../../helpers/cloudinary.helper");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const products = yield products_model_1.default.find({
         deleted: false,
     })
         .populate({
-        path: "product_categories images.assets_id",
+        path: "product_categories images.assets_id created_by",
     })
         .sort({ createdAt: -1 });
     res.render("admin/pages/products/index.pug", {
@@ -46,6 +47,7 @@ const create_post = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     req.body.product_categories = req.body.product_categories
         ? req.body.product_categories
         : null;
+    req.body.created_by = res.locals.INFOR_ADMIN._id;
     req.body.price = req.body.price ? parseInt(req.body.price) : 0;
     req.body.discount = req.body.discount ? parseInt(req.body.discount) : 0;
     for (const it of req.body.images) {
@@ -71,7 +73,7 @@ const create_post = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.create_post = create_post;
 const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield products_model_1.default.findById(req.params.id).populate({
-        path: "product_categories images.assets_id",
+        path: "product_categories images.assets_id created_by updated_by",
     });
     if (!product)
         return res.redirect("/admin/products/index");
@@ -87,7 +89,12 @@ const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.edit = edit;
 const edit_patch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    req.body.product_categories = (req.body.product_categories ? req.body.product_categories : null);
+    req.body.updated_by = res.locals.INFOR_ADMIN._id;
+    req.body.featured = JSON.parse(req.body.featured);
+    console.log(req.body.featured);
+    req.body.product_categories = req.body.product_categories
+        ? req.body.product_categories
+        : null;
     let index = 0;
     let array_data = [];
     if (req.body.array_data_image &&
@@ -122,6 +129,7 @@ const delete_soft = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     yield products_model_1.default.updateOne({
         _id: req.params.id
     }, {
+        deleted_by: res.locals.INFOR_ADMIN._id,
         deleted: true
     });
     res.cookie("alert", JSON.stringify({
@@ -139,7 +147,7 @@ const trash = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         deleted: true,
     })
         .populate({
-        path: "product_categories images.assets_id",
+        path: "product_categories images.assets_id deleted_by",
     })
         .sort({ updatedAt: -1 });
     res.render("admin/pages/products/trash.pug", {
@@ -164,6 +172,14 @@ const restore = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.restore = restore;
 const hard_delete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = yield products_model_1.default.findOne({
+        _id: req.params.id,
+    }).populate("images.assets_id");
+    if (product.images.length > 0) {
+        const array_public_id = product.images.map((it) => it.assets_id["public_id"]);
+        console.log(array_public_id);
+        yield (0, cloudinary_helper_1.cloudinary_delete_many)(array_public_id);
+    }
     yield products_model_1.default.deleteOne({
         _id: req.params.id
     });

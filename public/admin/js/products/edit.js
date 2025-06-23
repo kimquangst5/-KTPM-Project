@@ -60,6 +60,8 @@ const main = () => {
         form_data.append('discount', form.querySelector("[name = 'discount' ]").value);
         form_data.append('product_categories', form.querySelector("[name = 'product_categories' ]").value);
         form_data.append('quantity', form.querySelector("[name = 'quantity' ]").value);
+        form_data.append('status', form.querySelector("[name = 'status' ]").value);
+        form_data.append('featured', form.querySelector("[name = 'featured' ]").value);
         form_data.append('array_data_image', JSON.stringify(array_data_image));
         axios.patch(form.getAttribute("action"), form_data)
             .then(res => {
@@ -72,17 +74,18 @@ const main = () => {
 }
 
 
-
 const add_image = async () => {
     const data_image = document.querySelector('[data-image]');
     const data = JSON.parse(data_image.getAttribute('data-image')).sort((a, b) => a.position - b.position)
     
     let array_url_img = data.map(it => it.assets_id.secure_url);
+    if (data.length > 0)
+        quick_alert("success", "Đang thêm ảnh, vui lòng chờ.....")
     async function addSequentially(urls) {
         for (const url of urls) {
             upload.addImagesFromPath([url]);
             // đợi đến khi ảnh được render trước khi thêm ảnh tiếp theo
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 800));
         }
     }
     await addSequentially(array_url_img);
@@ -101,7 +104,19 @@ const add_image = async () => {
 init_preview_image();
 const ok = async () => {
     await add_image();
-    init_sortable()
+    setTimeout(() => {
+        init_sortable()
+        quick_alert("success", "Thêm ảnh xong!\nCó thể kéo thả ảnh theo ý muốn!")
+    }, 5000);
 }
 ok()
+
+const hide_show_btn = () => {
+    const btn = document.querySelector("[btn-submit]");
+    btn.classList.toggle("hidden");
+    setTimeout(() => {
+        btn.classList.toggle("hidden")
+    }, 4000);
+}
+hide_show_btn()
 main();

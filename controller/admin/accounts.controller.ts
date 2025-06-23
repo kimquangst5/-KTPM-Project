@@ -6,6 +6,7 @@ import Assets from "../../models/assets.model";
 import { bcrypt_hash } from "../../helpers/bcrypt.helper";
 import { format_date, parse_date } from "../../helpers/format_date.helper";
 import { jwt_create } from "../../helpers/jwt.helpers";
+import { cloudinary_get_all_assets } from "../../helpers/cloudinary.helper";
 
 export const login = async (req: Request, res: Response) => {
   res.render('admin/pages/accounts/login.pug')
@@ -23,6 +24,7 @@ export const index = async (req: Request, res: Response) => {
 };
 
 export const create = async (req: Request, res: Response) => {
+  
   const roles = await Roles.find({
     deleted: false,
   });
@@ -67,7 +69,6 @@ export const update = async (req: Request, res: Response) => {
     deleted: false,
   }).populate("avatar role_id");
   account["birthday_new"] = (account.birthday ?  await format_date(account.birthday) : "")
-  console.log(account["birthday_new"]);
   const roles = await Roles.find({
     deleted: false
   })

@@ -1,25 +1,3 @@
-const get_cookie = (cookieName) => {
-    // Tách chuỗi thành một mảng các cặp name/value
-    let cookieArray = document.cookie.split("; ");
-    // Chuyển name/value từ dạng string thành object
-    cookieArray = cookieArray.map(item => {
-        item = item.split("=");
-        return {
-            name: item[0],
-            value: item[1]
-        };
-    });
-    // Lấy ra cookie đang cần tìm
-    const cookie = cookieArray.find(item => {
-        return item.name === cookieName;
-    });
-
-    return cookie ? cookie.value : null;
-}
-
-const delete_cookie = name =>
-    (document.cookie = `${name}=; expires=Mon, 08 Aug 2005 00:00:00 GMT; path=/`);
-
 const fun_carousel = () => {
     const carousel = document.querySelector('.carousel-thumbnails');
     const scroller = document.querySelector('.thumbnails__scroller');
@@ -69,12 +47,16 @@ const quick_alert = (icon = 'success', title = 'Thành công') => {
     });
 }
 
-if (get_cookie('alert')) {
-    const alert = decodeURIComponent(get_cookie('alert'));
-    const alert_data = JSON.parse(alert);
-    quick_alert(alert_data.icon, alert_data.title);
-    delete_cookie('alert')
+const get_alert = async () => {
+    const cookie = await cookieStore.get("alert")
+    if (cookie) {
+        const alert = decodeURIComponent(cookie.value);
+        const alert_data = JSON.parse(alert);
+        quick_alert(alert_data.icon, alert_data.title);
+        cookieStore.delete("alert")
+    }
 }
+get_alert()
 
 const confirm_alert = (title, text, func) => {
     Swal.fire({

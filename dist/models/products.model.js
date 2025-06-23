@@ -57,7 +57,7 @@ const products_schema = new mongoose_1.Schema({
                 ref: "Asset",
                 default: null,
             },
-            position: Number
+            position: Number,
         },
     ],
     slug: {
@@ -77,6 +77,19 @@ const products_schema = new mongoose_1.Schema({
         type: Number,
         default: status_const_1.products_const.ACTIVE,
     },
+    created_by: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Admin Account",
+    },
+    updated_by: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Admin Account",
+    },
+    deleted_by: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Admin Account",
+    },
+    featured: Boolean
 }, {
     timestamps: true,
     autoCreate: true,

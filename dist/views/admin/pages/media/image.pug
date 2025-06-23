@@ -1,0 +1,60 @@
+extends ../../layouts/layout.pug
+include ../../components/button.pug
+include ../../components/page_header.pug
+
+block script
+    script(src="/admin/js/media/image/index.js") 
+
+block main
+    +page_header("Danh sách hình ảnh")
+        sl-dropdown(list-action)
+            sl-button(slot="trigger", caret) Hành động
+            sl-menu
+                sl-menu-item(value="xoa-nhieu") Xóa nhiều ảnh
+        +btn('Thêm mới', "/admin/accounts/create", 'primary', 'plus-circle', "/admin/accounts/create")
+    
+    table(class="w-full")
+        thead
+            tr
+                th(class="text-center w-0 text-nowrap px-[10px] ") STT
+                th(class="text-center w-0 text-nowrap px-[10px] ")
+                    sl-checkbox(class="block mx-auto")
+                th Ảnh (#{assets.length})
+                th(class="text-center w-0 text-nowrap px-[10px]") Tên
+                th(class="text-center w-0 text-nowrap px-[10px]") Public Id
+                th(class="text-center w-0 text-nowrap px-[10px]") Thư mục
+                th(class="text-center w-0 text-nowrap px-[10px]") Kích thước
+                th(class="text-center w-0 text-nowrap px-[10px]") Định dạng
+                th(class="text-center w-0 text-nowrap px-[10px]") Sản phẩm
+                th Hành động
+        tbody
+            - if(assets && assets.length > 0 )
+                each image, index in assets
+                    - if(image.asset_folder == "Kim_Quang")
+                        tr
+                            td(class="text-center") #{index + 1}
+                            td(class="text-center")
+                                sl-checkbox(class="block mx-auto" id = image.public_id)
+                            td(class="w-1/12")
+                                img(src=image.secure_url ? image.secure_url : '', alt="" class="h-[80px]")
+                            td(class="w-0 text-nowrap px-[10px]")
+                                div #{image.display_name}
+                            td(class="w-0 text-nowrap px-[10px]")
+                                div #{image.public_id}
+                            td(class="w-0 text-nowrap px-[10px]")
+                                div #{image.asset_folder}
+                            td(class="text-center w-0")
+                                sl-format-bytes(value = image.bytes)
+                            td(class="text-center w-0")
+                                div #{image.format}
+                            td(class="text-center w-0")
+                                - if(image.usedByProducts && image.usedByProducts.length > 0)
+                                    each it, index in image.usedByProducts
+                                        a(href=`/admin/products/edit/${it._id}`)  #{index + 1}
+                            td(class="w-0")
+                                div(class="flex items-center justify-center gap-x-[10px]")
+                                    sl-button(target="_blank" href=image.secure_url size='small' copy-label="Sao chép link ảnh!" success-label="Đã sao chép!")
+                                        sl-icon(name="box-arrow-up-right")
+                                    sl-copy-button(value=image.public_id size='small' copy-label="Sao chép public_id!" success-label="Đã sao chép!")
+                                    sl-button(href = `/admin/media/image/edit?public_id=${image.public_id}` size="small" variant="primary" outline pill) Sửa 
+                                    sl-button(hard-delete = `/admin/media/image/xoa-mot` id = image.public_id size="small" variant="danger" outline pill) Xóa  

@@ -13,29 +13,29 @@ block main
     table(class="w-full")
         thead
             tr
-                th STT
-                th Hình ảnh
+                th(class="text-nowrap w-0 px-[10px] text-center") STT
+                th(class="text-nowrap w-1/12 px-[10px] text-center") Hình ảnh
                 th Sản phẩm
                 th Danh mục
-                th Giá tiền
-                th % giảm giá
-                th Giá cuối
-                th Hành động
+                th(class="text-nowrap w-0 px-[10px] text-center")  Giá tiền
+                th(class="text-nowrap w-0 px-[10px] ") % giảm giá
+                th(class="text-nowrap w-0 px-[10px] text-center") Giá cuối
+                th(class="text-nowrap w-0 px-[10px] text-center") Hành động
         tbody
             - if(products && products.length > 0)
                 each product, index in products
                     tr
-                        td #{index + 1}
-                        td
+                        td(class="text-nowrap w-0 px-[10px] text-center") #{index + 1}
+                        td(class="text-nowrap w-1/12 px-[10px] text-center")
                             img(src=product.images[0] ? product.images[0].assets_id.secure_url : '', alt="" class="h-[80px]")
-                        td #{product.name}
-                        td #{product.product_categories ? product.product_categories.name : ''}
+                        td(class="w-1/3") #{product.name}
+                        td(class="text-nowrap w-0 px-[10px]") #{product.product_categories ? product.product_categories.name : ''}
+                        td(class="text-nowrap w-0 px-[10px] ")
+                            sl-format-number(type="currency" currency="VND" value=product.price lang="vi" class="text-secondary block text-center")
+                        td(class="text-nowrap w-0 px-[10px] text-center") #{product.discount}
                         td
-                            sl-format-number(type="currency" currency="VND" value=product.price lang="vi" class="text-secondary")
-                        td(class="text-center") #{product.discount}
-                        td
-                            sl-format-number(type="currency" currency="VND" value=product.price - (product.price * product.discount / 100) lang="vi" class="text-secondary")
-                        td(class="")
+                            sl-format-number(type="currency" currency="VND" value=product.price - (product.price * product.discount / 100) lang="vi" class="text-secondary block text-center")
+                        td(class="text-nowrap w-0 px-[10px] text-center") 
                             div(class="flex items-center justify-center gap-x-[10px]")
                                 sl-button(href=`/admin/products/edit/${product._id}` class="" size="small" variant="primary" outline pill) Sửa
                                 sl-button(soft-delete=`/admin/products/xoa-mem/${product._id}` size="small" variant="danger" outline pill) Xóa

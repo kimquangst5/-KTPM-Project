@@ -45,6 +45,8 @@ export const check_login_admin = async (
           return
         }
         res.locals.INFOR_ADMIN = user;
+        res.locals.LOCATION_HREF = req.originalUrl;
+        
         next()
       }
     }

@@ -1,0 +1,8 @@
+mixin tree(icon, title, link = null, isExpanded = false)
+    sl-tree-item(expanded=isExpanded selected = (LOCATION_HREF == link ? true : false))
+        sl-icon(name=icon)
+        - if(link == null)
+            | #{title}
+        - else
+            a(href=link) #{title}
+        block
